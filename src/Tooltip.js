@@ -12,10 +12,10 @@ export default class Tooltip extends React.PureComponent {
 
 	render() {
 		const {type, id} = this.props
-		return <Consumer>{({data, loadTooltip}) => {
+		return <Consumer>{({data, load}) => {
 			const tooltipData = get(data, [type, id], null)
 			if (!tooltipData) {
-				loadTooltip(this.props.type, this.props.id)
+				load(this.props.type, this.props.id)
 				return <span>Loading...</span>
 			}
 

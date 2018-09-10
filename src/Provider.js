@@ -28,7 +28,7 @@ export default class Provider extends React.Component {
 		// Set up the state, it will be passed out to consumers
 		this.state = {
 			data: {},
-			loadTooltip: this.loadTooltip.bind(this),
+			load: this.load.bind(this),
 		}
 
 		// Set up our endpoint with axios.
@@ -43,7 +43,7 @@ export default class Provider extends React.Component {
 		)
 	}
 
-	loadTooltip(type, id) {
+	load(type, id) {
 		const typePending = this.pending[type] = this.pending[type] || []
 		typePending.push(id)
 		this.run()
