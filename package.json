@@ -1,0 +1,26 @@
+{
+  "name": "@xivanalysis/tooltips",
+  "version": "0.0.1",
+  "description": "Tooltips for xivanalysis, using data from xivapi",
+  "private": true,
+  "scripts": {
+    "storybook": "start-storybook -p 6006 -c .storybook"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@emotion/core": "^0.13.0",
+    "@storybook/addon-knobs": "^4.0.0-alpha.21",
+    "@storybook/react": "^4.0.0-alpha.21",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.2",
+    "eslint": "^5.5.0",
+    "eslint-plugin-xivanalysis": "xivanalysis/linter",
+    "moment": "^2.22.2",
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0"
+  },
+  "peerDependencies": {
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0"
+  }
+}
