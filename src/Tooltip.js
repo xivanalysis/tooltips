@@ -1,3 +1,4 @@
+import {get} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -10,9 +11,15 @@ export default class Tooltip extends React.PureComponent {
 	}
 
 	render() {
-		return <Consumer>{({loadTooltip}) => {
-			loadTooltip(this.props.type, this.props.id)
-			return <span>{this.props.type}</span>
+		const {type, id} = this.props
+		return <Consumer>{({data, loadTooltip}) => {
+			const tooltipData = get(data, [type, id], null)
+			if (!tooltipData) {
+				loadTooltip(this.props.type, this.props.id)
+				return <span>Loading...</span>
+			}
+
+			return <span>{tooltipData.Name}</span>
 		}}
 		</Consumer>
 	}

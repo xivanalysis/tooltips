@@ -4,5 +4,6 @@ import React from 'react'
 const noProvider = () => { throw new Error('No tooltip provider found!') }
 
 export const {Provider, Consumer} = React.createContext({
+	data: {},
 	loadTooltip: noProvider,
 })

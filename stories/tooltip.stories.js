@@ -6,4 +6,7 @@ import Tooltip from 'Tooltip'
 
 storiesOf('Tooltip', module)
 	.addDecorator(story => <Provider>{story()}</Provider>)
-	.add('Tooltip', () => <Tooltip type="Action" id={42}/>)
+	.add('Tooltip', () => <>
+		<Tooltip type="Action" id={42}/>
+		<Tooltip type="Action" id={43}/>
+	</>)
