@@ -6,6 +6,9 @@
   "scripts": {
     "storybook": "start-storybook -p 6006 -c .storybook"
   },
+  "dependencies": {
+    "prop-types": "^15.6.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0",
     "@emotion/core": "^0.13.0",
