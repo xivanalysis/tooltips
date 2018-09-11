@@ -9,6 +9,7 @@ export default class Tooltip extends React.PureComponent {
 	static propTypes = {
 		type: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
+		mountNode: PropTypes.instanceOf(Element),
 	}
 
 	constructor(...args) {
@@ -20,7 +21,11 @@ export default class Tooltip extends React.PureComponent {
 	}
 
 	render() {
-		const {type, id} = this.props
+		const {
+			type,
+			id,
+			mountNode = document.body,
+		} = this.props
 		const {hovering} = this.state
 
 		return <Consumer>{({data, load}) => {
@@ -44,7 +49,7 @@ export default class Tooltip extends React.PureComponent {
 				</span>
 				{hovering && ReactDOM.createPortal(
 					<span>{JSON.stringify(tooltipData)}</span>,
-					document.body
+					mountNode
 				)}
 			</>
 		}}
