@@ -36,7 +36,7 @@ export default class Tooltip extends React.PureComponent {
 			// If the data hasn't been loaded yet, request it
 			// TODO: Probably should have the data say if it's loading already
 			if (!tooltipData) {
-				load(this.props.type, this.props.id)
+				load(type, id)
 				return <span>Loading...</span>
 			}
 

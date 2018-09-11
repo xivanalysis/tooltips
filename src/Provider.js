@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import {Provider as ReactProvider} from './Context'
+import {getHandler} from './handlers'
 
 const DEFAULT_BASE_URL = 'https://xivapi.com/'
 const DEFAULT_DEBOUNCE_DELAY = 50
@@ -55,12 +56,15 @@ export default class Provider extends React.Component {
 
 		// We need to do a seperate request for each content type
 		Object.entries(pending).forEach(([type, ids]) => {
-			// This will be requesting way too much data OOTB
-			// TODO: Proper handlers
-			// TODO: Pagination
+			// Grab the handler for this type
+			const handler = getHandler(type)
+
+			// Run the data request
+			// TODO: Pagination?
 			this.endpoint.get(type, {
 				params: {
 					ids: ids.join(','),
+					columns: handler.columns.join(','),
 				},
 			}).then(response => {
 				// TODO: Sanity check the response
