@@ -1,4 +1,6 @@
 .tooltip {
+	width: 300px;
 	background: black;
 	color: white;
+	font: 14px Arial, 'Helvetica Neue', Helvetica, sans-serif;
 }
