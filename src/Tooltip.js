@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import Popup from './Popup'
 import {Consumer} from './Context'
+import {getHandler} from './handlers'
 
 export default class Tooltip extends React.PureComponent {
 	static propTypes = {
@@ -22,12 +22,16 @@ export default class Tooltip extends React.PureComponent {
 	}
 
 	render() {
+		// Pull in data from props and state
 		const {
 			type,
 			id,
 			mountNode = document.body,
 		} = this.props
 		const {hovering} = this.state
+
+		// Get the handler we'll be rendering for this type
+		const Handler = getHandler(type)
 
 		return <Consumer>{({data, load}) => {
 			// Grab the data from the provider (using lodash because ez)
@@ -49,7 +53,7 @@ export default class Tooltip extends React.PureComponent {
 					{tooltipData.Name}
 				</span>
 				{hovering && ReactDOM.createPortal(
-					<Popup data={tooltipData}/>,
+					<Handler data={tooltipData}/>,
 					mountNode
 				)}
 			</>
