@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import Popup from './Popup'
 import {Consumer} from './Context'
 
 export default class Tooltip extends React.PureComponent {
@@ -48,7 +49,7 @@ export default class Tooltip extends React.PureComponent {
 					{tooltipData.Name}
 				</span>
 				{hovering && ReactDOM.createPortal(
-					<span>{JSON.stringify(tooltipData)}</span>,
+					<Popup data={tooltipData}/>,
 					mountNode
 				)}
 			</>
