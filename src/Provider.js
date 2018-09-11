@@ -84,7 +84,11 @@ export default class Provider extends React.Component {
 	}
 
 	render() {
-		return <ReactProvider value={this.state}>
+		console.log
+		return <ReactProvider value={{
+			...this.state,
+			baseUrl: this.props.baseUrl || DEFAULT_BASE_URL,
+		}}>
 			{this.props.children}
 		</ReactProvider>
 	}

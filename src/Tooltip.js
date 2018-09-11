@@ -33,7 +33,7 @@ export default class Tooltip extends React.PureComponent {
 		// Get the handler we'll be rendering for this type
 		const Handler = getHandler(type)
 
-		return <Consumer>{({data, load}) => {
+		return <Consumer>{({baseUrl, data, load}) => {
 			// Grab the data from the provider (using lodash because ez)
 			const tooltipData = get(data, [type, id], null)
 
@@ -53,7 +53,7 @@ export default class Tooltip extends React.PureComponent {
 					{tooltipData.Name}
 				</span>
 				{hovering && ReactDOM.createPortal(
-					<Handler data={tooltipData}/>,
+					<Handler data={tooltipData} baseUrl={baseUrl}/>,
 					mountNode
 				)}
 			</>
