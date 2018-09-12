@@ -56,6 +56,22 @@ export default class Action extends Base {
 				</dl>
 			</div>
 
+			{/* Major stats that the game displays massive for w/e reason */}
+			<div className={styles.majorStats}>
+				<div>
+					<div className={styles.key}>Cast</div>
+					<div className={styles.value}>{data.castTime || 'Instant'}</div>
+				</div>
+				<div>
+					<div className={styles.key}>Recast</div>
+					<div className={styles.value}>{data.recastTime}</div>
+				</div>
+				<div>
+					<div className={styles.key}>Cost</div>
+					<div className={styles.value}>{data.resourceCost}</div>
+				</div>
+			</div>
+
 			{/* Description */}
 			<p
 				className={styles.description}
@@ -64,9 +80,6 @@ export default class Action extends Base {
 
 			{/* Meta */}
 			<dl className={styles.meta}>
-				<dt>Cast</dt><dd>{data.castTime || 'Instant'}</dd>
-				<dt>Recast</dt><dd>{data.recastTime}</dd>
-				<dt>Cost</dt><dd>{data.resourceCost}</dd>
 				<dt>Acquired</dt><dd>{data.learntBy} {data.learntAt}</dd>
 				<dt>Affinity</dt><dd>{data.affinity}</dd>
 			</dl>
