@@ -4,6 +4,7 @@ import styles from './Action.module.css'
 import Base from './Base'
 
 const MELEE_RANGE = 3
+const CAST_TIME_DIVISOR = 10
 
 export default class Action extends Base {
 	static columns = {
@@ -38,6 +39,13 @@ export default class Action extends Base {
 		//       Mana isn't 1:1
 		// TODO: Anything that isn't on the tooltip for storm's path because that's the only example i've got right now
 
+		// Cast times are stored in 100ms units
+		const castTime = data.castTime ?
+			(data.castTime / CAST_TIME_DIVISOR).toFixed(2) + 's' :
+			'Instant'
+
+		const recastTime = (data.recastTime / CAST_TIME_DIVISOR).toFixed(2) + 's'
+
 		return <div className={styles.tooltip}>
 			{/* Header */}
 			<div className={styles.header}>
@@ -60,11 +68,11 @@ export default class Action extends Base {
 			<div className={styles.majorStats}>
 				<div>
 					<div className={styles.key}>Cast</div>
-					<div className={styles.value}>{data.castTime || 'Instant'}</div>
+					<div className={styles.value}>{castTime}</div>
 				</div>
 				<div>
 					<div className={styles.key}>Recast</div>
-					<div className={styles.value}>{data.recastTime}</div>
+					<div className={styles.value}>{recastTime}</div>
 				</div>
 				<div>
 					<div className={styles.key}>Cost</div>
