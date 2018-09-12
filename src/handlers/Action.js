@@ -39,19 +39,33 @@ export default class Action extends Base {
 		// TODO: Anything that isn't on the tooltip for storm's path because that's the only example i've got right now
 
 		return <div className={styles.tooltip}>
+			{/* Header */}
 			<div className={styles.header}>
-				<img src={baseUrl + data.icon} />
-				{data.name}
-				{data.actionCategory}
-				Range {range}
-				Radius {data.radius}
-				Cast {data.castTime || 'Instant'}
-				Recast {data.recastTime}
-				Cost {data.resourceCost}
+				<div className={styles.iconHolder}>
+					<img src={baseUrl + data.icon}/>
+				</div>
+				<div className={styles.titleContainer}>
+					<div className={styles.name}>{data.name}</div>
+					<div className={styles.category}>{data.actionCategory}</div>
+				</div>
 			</div>
-			<p dangerouslySetInnerHTML={{__html: description}}/>
-			Acquired {data.learntBy} {data.learntAt}
-			Affinity {data.affinity}
+
+			{/* Description */}
+			<p
+				className={styles.description}
+				dangerouslySetInnerHTML={{__html: description}}
+			/>
+
+			{/* Meta */}
+			<dl className={styles.meta}>
+				<dt>Range</dt><dd>{range}</dd>
+				<dt>Radius</dt><dd>{data.radius}</dd>
+				<dt>Cast</dt><dd>{data.castTime || 'Instant'}</dd>
+				<dt>Recast</dt><dd>{data.recastTime}</dd>
+				<dt>Cost</dt><dd>{data.resourceCost}</dd>
+				<dt>Acquired</dt><dd>{data.learntBy} {data.learntAt}</dd>
+				<dt>Affinity</dt><dd>{data.affinity}</dd>
+			</dl>
 		</div>
 	}
 }
