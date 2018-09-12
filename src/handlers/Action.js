@@ -44,10 +44,16 @@ export default class Action extends Base {
 				<div className={styles.iconHolder}>
 					<img src={baseUrl + data.icon}/>
 				</div>
+
 				<div className={styles.titleContainer}>
 					<div className={styles.name}>{data.name}</div>
 					<div className={styles.category}>{data.actionCategory}</div>
 				</div>
+
+				<dl className={styles.headerMeta}>
+					<dt>Range</dt><dd>{range}y</dd>
+					<dt>Radius</dt><dd>{data.radius}y</dd>
+				</dl>
 			</div>
 
 			{/* Description */}
@@ -58,8 +64,6 @@ export default class Action extends Base {
 
 			{/* Meta */}
 			<dl className={styles.meta}>
-				<dt>Range</dt><dd>{range}</dd>
-				<dt>Radius</dt><dd>{data.radius}</dd>
 				<dt>Cast</dt><dd>{data.castTime || 'Instant'}</dd>
 				<dt>Recast</dt><dd>{data.recastTime}</dd>
 				<dt>Cost</dt><dd>{data.resourceCost}</dd>

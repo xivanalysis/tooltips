@@ -1,3 +1,17 @@
+/* Utilities */
+.tooltip, .tooltip * {
+	box-sizing: border-box;
+}
+
+.tooltip dl {
+	margin: 0;
+}
+
+.tooltip dd {
+	margin: 0;
+}
+
+/* Main tooltip block itself */
 .tooltip {
 	border: 1px solid #111;
 	border-radius: 5px;
@@ -8,12 +22,10 @@
 	box-shadow: inset 0 0 3px #444, 0 0 10px 2px #111;
 }
 
-.tooltip, .tooltip * {
-	box-sizing: border-box;
-}
-
+/* Header */
 .header {
 	display: flex;
+	align-items: center;
 	border-bottom: 1px solid #111;
 	background-color: rgba(0, 0, 0, .3);
 }
@@ -33,9 +45,9 @@
 }
 
 .titleContainer {
-	align-self: center;
 	padding: 0 15px;
 	min-width: 0;
+	width: 100%;
 }
 
 .name {
@@ -52,6 +64,20 @@
 	text-transform: uppercase;
 }
 
+.headerMeta {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	margin-left: auto;
+	padding-right: 15px;
+}
+
+.headerMeta>dt {
+	color: #aaa;
+	margin-right: 6px;
+}
+
+/* Description */
 .description {
 	margin: 0;
 	border-bottom: 1px solid #111;
@@ -60,10 +86,10 @@
 	font-size: 11px;
 }
 
+/* Meta */
 .meta {
 	display: flex;
 	flex-wrap: wrap;
-	margin: 0;
 	padding: 8px;
 }
 
@@ -73,8 +99,4 @@
 
 .meta > dt {
 	color: #ffc99a;
-}
-
-.meta > dd {
-	margin: 0;
 }
