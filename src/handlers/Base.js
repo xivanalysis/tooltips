@@ -7,9 +7,10 @@ export default class Base extends React.Component {
 		baseUrl: PropTypes.string.isRequired,
 	}
 
-	static columns = [
-		'ID',
-	]
+	static columns = {
+		id: 'ID',
+		name: 'Name',
+	}
 
 	render() {
 		return JSON.stringify(this.props.data)

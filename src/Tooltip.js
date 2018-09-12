@@ -50,7 +50,7 @@ export default class Tooltip extends React.PureComponent {
 					onMouseEnter={() => this.setState({hovering: true})}
 					onMouseLeave={() => this.setState({hovering: false})}
 				>
-					{tooltipData.Name}
+					{tooltipData.name}
 				</span>
 				{hovering && ReactDOM.createPortal(
 					<Handler data={tooltipData} baseUrl={baseUrl}/>,

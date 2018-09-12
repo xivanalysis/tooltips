@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {debounce, merge} from 'lodash'
+import {debounce, get, mapValues, merge} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -64,13 +64,16 @@ export default class Provider extends React.Component {
 			this.endpoint.get(type, {
 				params: {
 					ids: ids.join(','),
-					columns: handler.columns.join(','),
+					columns: Object.values(handler.columns).join(','),
 				},
 			}).then(response => {
 				// TODO: Sanity check the response
 				const results = response.data.Results
+
+				// Transform the response data into our representation and key by id
 				const keyedResults = results.reduce((carry, content) => {
-					carry[content.ID] = content
+					const mapped = mapValues(handler.columns, value => get(content, value, null))
+					carry[mapped.id] = mapped
 					return carry
 				}, {})
 

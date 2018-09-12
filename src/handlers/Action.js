@@ -6,30 +6,32 @@ import Base from './Base'
 const MELEE_RANGE = 3
 
 export default class Action extends Base {
-	static columns = [
+	static columns = {
 		...Base.columns,
-		'ActionCategory.Name',
-		'Cast100ms',
-		'ClassJob.Abbreviation',
-		'ClassJobCategory.Name',
-		'ClassJobLevel',
-		'Cost',
-		'Description',
-		'EffectRange',
-		'Icon',
-		'Name',
-		'Range',
-		'Recast100ms',
-	]
+		icon: 'Icon',
+		description: 'Description',
+
+		actionCategory: 'ActionCategory.Name',
+		resourceCost: 'Cost',
+		range: 'Range',
+		radius: 'EffectRange',
+
+		castTime: 'Cast100ms',
+		recastTime: 'Recast100ms',
+
+		learntBy: 'ClassJob.Abbreviation',
+		learntAt: 'ClassJobLevel',
+		affinity: 'ClassJobCategory.Name',
+	}
 
 	render() {
 		const {baseUrl, data} = this.props
 
 		// Need to turn newlines into, like, _newlines_
-		const description = data.Description.replace(/\n/g, '<br/>')
+		const description = data.description.replace(/\n/g, '<br/>')
 
 		// Range === -1 seems to mean "melee distance", which is 3y
-		let range = data.Range
+		let range = data.range
 		if (range === -1) { range = MELEE_RANGE }
 
 		// TODO: CostType handling
@@ -38,18 +40,18 @@ export default class Action extends Base {
 
 		return <div className={styles.tooltip}>
 			<div className={styles.header}>
-				<img src={baseUrl + data.Icon} />
-				{data.Name}
-				{data.ActionCategory.Name}
+				<img src={baseUrl + data.icon} />
+				{data.name}
+				{data.actionCategory}
 				Range {range}
-				Radius {data.EffectRange}
-				Cast {data.Cast100ms || 'Instant'}
-				Recast {data.Recast100ms}
-				Cost {data.Cost}
+				Radius {data.radius}
+				Cast {data.castTime || 'Instant'}
+				Recast {data.recastTime}
+				Cost {data.resourceCost}
 			</div>
 			<p dangerouslySetInnerHTML={{__html: description}}/>
-			Acquired {data.ClassJob.Abbreviation} {data.ClassJobLevel}
-			Affinity {data.ClassJobCategory.Name}
+			Acquired {data.learntBy} {data.learntAt}
+			Affinity {data.affinity}
 		</div>
 	}
 }
