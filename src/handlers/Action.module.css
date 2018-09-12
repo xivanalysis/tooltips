@@ -13,6 +13,7 @@
 
 /* Main tooltip block itself */
 .tooltip {
+	position: relative;
 	border: 1px solid #111;
 	border-radius: 5px;
 	width: 330px;
@@ -134,4 +135,18 @@
 
 .meta > dt {
 	color: #ffc99a;
+}
+
+/* That last thing */
+.attribution {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: block;
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #666;
+	text-align: right;
+	text-decoration: none;
 }

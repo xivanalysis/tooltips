@@ -91,6 +91,9 @@ export default class Action extends Base {
 				<dt>Acquired</dt><dd>{data.learntBy} {data.learntAt}</dd>
 				<dt>Affinity</dt><dd>{data.affinity}</dd>
 			</dl>
+
+			{/* :bloblove: */}
+			<a href="https://xivapi.com/" className={styles.attribution}>xivapi.com</a>
 		</div>
 	}
 }
