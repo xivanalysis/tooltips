@@ -1,16 +1,23 @@
 import {get} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
-import ReactDOM from 'react-dom'
+import Popup from 'reactjs-popup'
 
 import {Consumer} from './Context'
 import {getHandler} from './handlers'
+
+const POPUP_STYLE = {
+	border: 'none',
+	padding: 0,
+	width: 'auto',
+	background: 'transparent',
+	boxShadow: 'none',
+}
 
 export default class Tooltip extends React.PureComponent {
 	static propTypes = {
 		type: PropTypes.string.isRequired,
 		id: PropTypes.number.isRequired,
-		mountNode: PropTypes.instanceOf(Element),
 	}
 
 	constructor(...args) {
@@ -26,9 +33,7 @@ export default class Tooltip extends React.PureComponent {
 		const {
 			type,
 			id,
-			mountNode = document.body,
 		} = this.props
-		const {hovering} = this.state
 
 		// Get the handler we'll be rendering for this type
 		const Handler = getHandler(type)
@@ -44,19 +49,19 @@ export default class Tooltip extends React.PureComponent {
 				return <span>Loading...</span>
 			}
 
-			// We've got the data we need, render link + tooltip
-			return <>
-				<span
-					onMouseEnter={() => this.setState({hovering: true})}
-					onMouseLeave={() => this.setState({hovering: false})}
-				>
+			// We've got the data we need, the tooltip
+			return <Popup
+				trigger={<span>
 					{tooltipData.name}
-				</span>
-				{hovering && ReactDOM.createPortal(
-					<Handler data={tooltipData} baseUrl={baseUrl}/>,
-					mountNode
-				)}
-			</>
+				</span>}
+				position="top left"
+				on="hover"
+				arrow={false}
+				contentStyle={POPUP_STYLE}
+				keepTooltipInside={true}
+			>
+				<Handler data={tooltipData} baseUrl={baseUrl}/>
+			</Popup>
 		}}
 		</Consumer>
 	}

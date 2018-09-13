@@ -1,5 +1,5 @@
 [ ] provide tooltip content handling as a HOC in some manner
-[ ] default implementation of tooltip itself provided ootb w/ optDep
+[x] default implementation of tooltip itself provided ootb w/ optDep
 [ ] language handling (provider level?)
 [x] support for all action types
 [x] handle costs betterer
