@@ -47,6 +47,15 @@ export default class Action extends Base {
 
 		const recastTime = (data.recastTime / CAST_TIME_DIVISOR).toFixed(2) + 's'
 
+		// We only want to show the cost major stat if there _is_ a cost
+		const majorStats = [
+			{name: 'Cast', value: castTime},
+			{name: 'Recast', value: recastTime},
+		]
+		if (data.resourceCost) {
+			majorStats.push({name: 'Cost', value: data.resourceCost})
+		}
+
 		return <div className={styles.tooltip}>
 			{/* Header */}
 			<div className={styles.header}>
@@ -65,11 +74,7 @@ export default class Action extends Base {
 				</dl>
 			</div>
 
-			<MajorStats stats={[
-				{name: 'Cast', value: castTime},
-				{name: 'Recast', value: recastTime},
-				{name: 'Cost', value: data.resourceCost},
-			]}/>
+			<MajorStats stats={majorStats}/>
 
 			{/* Description */}
 			<p
