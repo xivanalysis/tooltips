@@ -5,6 +5,7 @@ import Popup from 'reactjs-popup'
 
 import {Consumer} from './Context'
 import {getHandler} from './handlers'
+import styles from './Tooltip.module.css'
 
 const POPUP_STYLE = {
 	border: 'none',
@@ -52,6 +53,11 @@ export default class Tooltip extends React.PureComponent {
 			// We've got the data we need, the tooltip
 			return <Popup
 				trigger={<span>
+					<img
+						src={baseUrl + tooltipData.icon}
+						alt={tooltipData.name}
+						className={styles.icon}
+					/>
 					{tooltipData.name}
 				</span>}
 				position="top left"
