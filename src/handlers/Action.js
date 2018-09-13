@@ -120,7 +120,14 @@ export default class Action extends Base {
 			</dl>
 
 			{/* :bloblove: */}
-			<a href="https://xivapi.com/" className={styles.attribution}>xivapi.com</a>
+			<a
+				href="https://xivapi.com/"
+				target="_blank"
+				rel="noopener noreferrer"
+				className={styles.attribution}
+			>
+				xivapi.com
+			</a>
 		</div>
 	}
 }
