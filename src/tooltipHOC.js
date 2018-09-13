@@ -22,6 +22,10 @@ export default Component => {
 				// Grab the data from the provider (using lodash because ez)
 				const tooltipData = get(data, [type, id], null)
 				const props = {
+					// Pass through props
+					...this.props,
+
+					// HOC props, overriding if req.
 					baseUrl,
 					loading: !tooltipData,
 					data: tooltipData,

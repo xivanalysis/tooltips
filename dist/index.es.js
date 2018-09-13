@@ -21060,6 +21060,8 @@ var tooltipHOC = (function (Component) {
     _createClass(TooltipHOC, [{
       key: "render",
       value: function render() {
+        var _this = this;
+
         var _this$props = this.props,
             type = _this$props.type,
             id = _this$props.id; // Get the handler we'll be rendering for this type
@@ -21071,14 +21073,16 @@ var tooltipHOC = (function (Component) {
               load = _ref.load;
           // Grab the data from the provider (using lodash because ez)
           var tooltipData = get(data, [type, id], null);
-          var props = {
+
+          var props = _objectSpread({}, _this.props, {
+            // HOC props, overriding if req.
             baseUrl: baseUrl,
             loading: !tooltipData,
             data: tooltipData,
             Content: null // If the data hasn't been loaded yet, request it, otherwise prep a handler
             // TODO: Probably should have the data say if it's loading already
 
-          };
+          });
 
           if (!tooltipData) {
             load(type, id);
