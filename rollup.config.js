@@ -23,8 +23,7 @@ export default {
 			extract: true,
 		}),
 		json(),
-		babel({
-		}),
+		babel(),
 		resolve({
 			preferBuiltins: false,
 		}),

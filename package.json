@@ -11,10 +11,8 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "axios": "^0.18.0",
     "lodash-es": "^4.17.11",
-    "prop-types": "^15.6.2",
-    "rollup-plugin-json": "^3.0.0"
+    "prop-types": "^15.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
@@ -24,6 +22,7 @@
     "@emotion/core": "^0.13.0",
     "@storybook/addon-knobs": "^4.0.0-alpha.21",
     "@storybook/react": "^4.0.0-alpha.21",
+    "axios": "^0.18.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
     "eslint": "^5.5.0",
@@ -34,11 +33,13 @@
     "rollup": "^0.65.2",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-json": "^3.0.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.2"
   },
   "peerDependencies": {
+    "axios": "^0.18.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0"
   },

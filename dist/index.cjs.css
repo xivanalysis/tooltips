@@ -4,6 +4,33 @@
 	vertical-align: bottom;
 }
 
+.Action-module_headerMeta__3szJT {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	margin-left: auto;
+	padding-right: 15px;
+}
+
+.Action-module_headerMeta__3szJT > dt {
+	color: #aaa;
+	margin-right: 6px;
+}
+
+.Action-module_meta__LBDsx {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 8px;
+}
+
+.Action-module_meta__LBDsx > * {
+	flex: 1 0 50%;
+}
+
+.Action-module_meta__LBDsx > dt {
+	color: #ffc99a;
+}
+
 /* Utilities */
 .Base-module_tooltip__1pSM2, .Base-module_tooltip__1pSM2 * {
 	box-sizing: border-box;
@@ -90,33 +117,6 @@
 	color: #666;
 	text-align: right;
 	text-decoration: none;
-}
-
-.Action-module_headerMeta__3szJT {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-end;
-	margin-left: auto;
-	padding-right: 15px;
-}
-
-.Action-module_headerMeta__3szJT > dt {
-	color: #aaa;
-	margin-right: 6px;
-}
-
-.Action-module_meta__LBDsx {
-	display: flex;
-	flex-wrap: wrap;
-	padding: 8px;
-}
-
-.Action-module_meta__LBDsx > * {
-	flex: 1 0 50%;
-}
-
-.Action-module_meta__LBDsx > dt {
-	color: #ffc99a;
 }
 
 /* Major stats things */

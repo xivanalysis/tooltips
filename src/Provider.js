@@ -1,10 +1,13 @@
-import axios from 'axios'
 import {debounce, get, set, mapValues} from 'lodash-es'
 import PropTypes from 'prop-types'
 import React from 'react'
 
 import {Provider as ReactProvider} from './Context'
 import {getHandler} from './handlers'
+
+// Need to use old style require due to something wonky somewhere
+// eslint-disable-next-line no-undef
+const axios = require('axios')
 
 const DEFAULT_BASE_URL = 'https://xivapi.com/'
 const DEFAULT_DEBOUNCE_DELAY = 50
