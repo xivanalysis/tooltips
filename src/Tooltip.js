@@ -17,7 +17,7 @@ export default class Tooltip extends React.PureComponent {
 		super(...args)
 
 		this.state = {
-			hovering: false,
+			hovering: true,
 		}
 	}
 
