@@ -2,7 +2,7 @@
 [ ] default implementation of tooltip itself provided ootb w/ optDep
 [ ] language handling (provider level?)
 [ ] support for all action types
-[ ] handle costs betterer
+[x] handle costs betterer
 [ ] support for statuses
 [ ] update the storybook and so on
 

@@ -7,6 +7,18 @@ import Base from './Base'
 const MELEE_RANGE = 3
 const CAST_TIME_DIVISOR = 10
 
+// Only get costTypes as IDs
+const COST_TYPE = {
+	MP: 3,
+	TP: 5,
+}
+
+// Overkill? Overkill.
+const COST_TYPE_NAME = {
+	[COST_TYPE.MP]: 'MP',
+	[COST_TYPE.TP]: 'TP',
+}
+
 export default class Action extends Base {
 	static columns = {
 		...Base.columns,
@@ -14,16 +26,26 @@ export default class Action extends Base {
 		description: 'Description',
 
 		actionCategory: 'ActionCategory.Name',
-		resourceCost: 'Cost',
 		range: 'Range',
 		radius: 'EffectRange',
 
 		castTime: 'Cast100ms',
 		recastTime: 'Recast100ms',
 
+		costType: 'CostType',
+		cost: 'Cost',
+
 		learntBy: 'ClassJob.Abbreviation',
 		learntAt: 'ClassJobLevel',
 		affinity: 'ClassJobCategory.Name',
+	}
+
+	// TODO: This needs to be abstracted into a shared lib at some point
+	_calculateManaCost(costFactor) {
+		// TODO: Only handling lv70 atm
+		const levelModifier = 12000
+
+		return Math.floor(costFactor * levelModifier/100)
 	}
 
 	render() {
@@ -52,8 +74,17 @@ export default class Action extends Base {
 			{name: 'Cast', value: castTime},
 			{name: 'Recast', value: recastTime},
 		]
-		if (data.resourceCost) {
-			majorStats.push({name: 'Cost', value: data.resourceCost})
+		if (data.cost) {
+			let cost = data.cost
+
+			if (data.costType === COST_TYPE.MP) {
+				cost = this._calculateManaCost(cost)
+			}
+
+			majorStats.push({
+				name: COST_TYPE_NAME[data.costType] + ' Cost',
+				value: cost,
+			})
 		}
 
 		return <div className={styles.tooltip}>
