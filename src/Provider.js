@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {debounce, get, mapValues, merge} from 'lodash'
+import {debounce, get, set, mapValues} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -14,6 +14,11 @@ export default class Provider extends React.Component {
 		children: PropTypes.node,
 		baseUrl: PropTypes.string,
 		debounceDelay: PropTypes.number,
+		language: PropTypes.string,
+	}
+
+	static defaultProps = {
+		language: 'en',
 	}
 
 	// I like axios. Fight me.
@@ -45,17 +50,22 @@ export default class Provider extends React.Component {
 	}
 
 	load(type, id) {
-		const typePending = this.pending[type] = this.pending[type] || []
+		const path = [this.props.language, type]
+		const typePending = get(this.pending, path, [])
 		typePending.push(id)
+		set(this.pending, path, typePending)
 		this.run()
 	}
 
 	_process() {
+		const {language} = this.props
+
 		const pending = this.pending
 		this.pending = {}
 
 		// We need to do a seperate request for each content type
-		Object.entries(pending).forEach(([type, ids]) => {
+		// For simplicity's sake, only request for the current lang
+		Object.entries(pending[language]).forEach(([type, ids]) => {
 			// Grab the handler for this type
 			const handler = getHandler(type)
 
@@ -65,9 +75,10 @@ export default class Provider extends React.Component {
 				params: {
 					ids: ids.join(','),
 					columns: Object.values(handler.columns).join(','),
+					language,
 				},
 			}).then(response => {
-				// TODO: Sanity check the response
+				// TODO: Sanity check the response?
 				const results = response.data.Results
 
 				// Transform the response data into our representation and key by id
@@ -77,19 +88,20 @@ export default class Provider extends React.Component {
 					return carry
 				}, {})
 
-				this.setState(state => merge({}, state, {
-					data: {
-						[type]: keyedResults,
-					},
-				}))
+				// Set the new results in place
+				this.setState(state => {
+					const newState = {...state}
+					set(newState, ['data', language, type], keyedResults)
+					return newState
+				})
 			})
 		})
 	}
 
 	render() {
-		console.log
 		return <ReactProvider value={{
 			...this.state,
+			data: this.state.data[this.props.language],
 			baseUrl: this.props.baseUrl || DEFAULT_BASE_URL,
 		}}>
 			{this.props.children}

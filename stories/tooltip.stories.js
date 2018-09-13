@@ -2,13 +2,16 @@ import {storiesOf} from '@storybook/react'
 import {text, number} from '@storybook/addon-knobs'
 import React from 'react'
 
+import Provider from 'Provider'
 import Tooltip from 'Tooltip'
 
 storiesOf('Custom', module)
-	.add('Custom', () => <Tooltip
-		type={text('Type')}
-		id={number('ID')}
-	/>)
+	.add('Tooltip', () => <Provider language={text('Language')}>
+		<Tooltip
+			type={text('Type')}
+			id={number('ID')}
+		/>
+	</Provider>)
 
 storiesOf('Action', module)
 	.add('Weaponskill', () => <Tooltip type="Action" id={42}/>)
