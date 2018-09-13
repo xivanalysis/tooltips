@@ -3,8 +3,8 @@
 [ ] language handling (provider level?)
 [x] support for all action types
 [x] handle costs betterer
-[ ] support for statuses
-[ ] update the storybook and so on
+[x] support for statuses
+[x] update the storybook and so on
 
 [ ] go live
 [ ] support for other shit

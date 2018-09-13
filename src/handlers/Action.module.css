@@ -1,69 +1,3 @@
-/* Utilities */
-.tooltip, .tooltip * {
-	box-sizing: border-box;
-}
-
-.tooltip dl {
-	margin: 0;
-}
-
-.tooltip dd {
-	margin: 0;
-}
-
-/* Main tooltip block itself */
-.tooltip {
-	position: relative;
-	border: 1px solid #111;
-	border-radius: 5px;
-	width: 330px;
-	background: #282828;
-	color: white;
-	font: 12px/18px Arial, 'Helvetica Neue', Helvetica, sans-serif;
-	box-shadow: inset 0 0 3px #444, 0 0 10px 2px #111;
-}
-
-/* Header */
-.header {
-	display: flex;
-	align-items: center;
-	border-bottom: 1px solid #111;
-	background-color: rgba(0, 0, 0, .3);
-}
-
-.iconHolder {
-	position: relative;
-	flex: 0 0 60px;
-	height: 60px;
-	background-color: #111;
-}
-
-.iconHolder > img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.titleContainer {
-	padding: 0 15px;
-	min-width: 0;
-	width: 100%;
-}
-
-.name {
-	font-size: 16px;
-	width: 100%;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}
-
-.category {
-	color: #ffc99a;
-	font-size: 12px;
-}
-
 .headerMeta {
 	display: flex;
 	flex-wrap: wrap;
@@ -77,16 +11,6 @@
 	margin-right: 6px;
 }
 
-/* Description */
-.description {
-	margin: 0;
-	border-bottom: 1px solid #111;
-	padding: 8px;
-	background: #222;
-	font-size: 11px;
-}
-
-/* Meta */
 .meta {
 	display: flex;
 	flex-wrap: wrap;
@@ -99,18 +23,4 @@
 
 .meta > dt {
 	color: #ffc99a;
-}
-
-/* That last thing */
-.attribution {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	display: block;
-	font-size: 10px;
-	line-height: 10px;
-	padding: 3px;
-	color: #666;
-	text-align: right;
-	text-decoration: none;
 }

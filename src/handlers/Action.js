@@ -22,8 +22,6 @@ const COST_TYPE_NAME = {
 export default class Action extends Base {
 	static columns = {
 		...Base.columns,
-		icon: 'Icon',
-		description: 'Description',
 
 		actionCategory: 'ActionCategory.Name',
 		range: 'Range',
@@ -48,19 +46,24 @@ export default class Action extends Base {
 		return Math.floor(costFactor * levelModifier/100)
 	}
 
-	render() {
-		const {baseUrl, data} = this.props
-
-		// Need to turn newlines into, like, _newlines_
-		const description = data.description.replace(/\n/g, '<br/>')
+	renderHeader() {
+		const {data} = this.props
 
 		// Range === -1 seems to mean "melee distance", which is 3y
 		let range = data.range
 		if (range === -1) { range = MELEE_RANGE }
 
-		// TODO: CostType handling
-		//       Mana isn't 1:1
-		// TODO: Anything that isn't on the tooltip for storm's path because that's the only example i've got right now
+		return <>
+			{super.renderHeader()}
+			<dl className={styles.headerMeta}>
+				<dt>Range</dt><dd>{range}y</dd>
+				<dt>Radius</dt><dd>{data.radius}y</dd>
+			</dl>
+		</>
+	}
+
+	renderDescription() {
+		const {data} = this.props
 
 		// Cast times are stored in 100ms units
 		const castTime = data.castTime ?
@@ -87,47 +90,18 @@ export default class Action extends Base {
 			})
 		}
 
-		return <div className={styles.tooltip}>
-			{/* Header */}
-			<div className={styles.header}>
-				<div className={styles.iconHolder}>
-					<img src={baseUrl + data.icon}/>
-				</div>
+		return <>
+			<MajorStats stats={majorStats} />
+			{super.renderDescription()}
+		</>
+	}
 
-				<div className={styles.titleContainer}>
-					<div className={styles.name}>{data.name}</div>
-					<div className={styles.category}>{data.actionCategory}</div>
-				</div>
+	renderFooter() {
+		const {data} = this.props
 
-				<dl className={styles.headerMeta}>
-					<dt>Range</dt><dd>{range}y</dd>
-					<dt>Radius</dt><dd>{data.radius}y</dd>
-				</dl>
-			</div>
-
-			<MajorStats stats={majorStats}/>
-
-			{/* Description */}
-			<p
-				className={styles.description}
-				dangerouslySetInnerHTML={{__html: description}}
-			/>
-
-			{/* Meta */}
-			<dl className={styles.meta}>
-				<dt>Acquired</dt><dd>{data.learntBy} Lv. {data.learntAt}</dd>
-				<dt>Affinity</dt><dd>{data.affinity}</dd>
-			</dl>
-
-			{/* :bloblove: */}
-			<a
-				href="https://xivapi.com/"
-				target="_blank"
-				rel="noopener noreferrer"
-				className={styles.attribution}
-			>
-				xivapi.com
-			</a>
-		</div>
+		return <dl className={styles.meta}>
+			<dt>Acquired</dt><dd>{data.learntBy} Lv. {data.learntAt}</dd>
+			<dt>Affinity</dt><dd>{data.affinity}</dd>
+		</dl>
 	}
 }

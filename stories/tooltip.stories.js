@@ -15,3 +15,6 @@ storiesOf('Action', module)
 	.add('Spell', () => <Tooltip type="Action" id={3579} />)
 	.add('Ability', () => <Tooltip type="Action" id={7562} />)
 	.add('LimitBreak', () => <Tooltip type="Action" id={4246} />)
+
+storiesOf('Status', module)
+	.add('Status', () => <Tooltip type="Status" id="44"/>)
