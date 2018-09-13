@@ -3,16 +3,24 @@
   "version": "0.0.1",
   "description": "Tooltips for xivanalysis, using data from xivapi",
   "private": true,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "jsnext:main": "dist/index.es.js",
   "scripts": {
-    "storybook": "start-storybook -p 6006 -c .storybook"
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "build": "rollup -c"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "lodash": "^4.17.10",
-    "prop-types": "^15.6.2"
+    "lodash-es": "^4.17.11",
+    "prop-types": "^15.6.2",
+    "rollup-plugin-json": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@emotion/core": "^0.13.0",
     "@storybook/addon-knobs": "^4.0.0-alpha.21",
     "@storybook/react": "^4.0.0-alpha.21",
@@ -22,7 +30,13 @@
     "eslint-plugin-xivanalysis": "xivanalysis/linter",
     "moment": "^2.22.2",
     "react": "^16.5.0",
-    "react-dom": "^16.5.0"
+    "react-dom": "^16.5.0",
+    "rollup": "^0.65.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.0",
+    "rollup-plugin-postcss": "^1.6.2"
   },
   "peerDependencies": {
     "react": "^16.5.0",

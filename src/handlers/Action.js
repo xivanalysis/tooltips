@@ -1,6 +1,6 @@
 import React from 'react'
 
-import MajorStats from 'sections/MajorStats'
+import MajorStats from '../sections/MajorStats'
 import styles from './Action.module.css'
 import Base from './Base'
 

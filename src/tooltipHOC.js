@@ -1,4 +1,4 @@
-import {get} from 'lodash'
+import {get} from 'lodash-es'
 import PropTypes from 'prop-types'
 import React from 'react'
 

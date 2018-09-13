@@ -1,0 +1,156 @@
+.Tooltip-module_icon__2Sv2l {
+	margin-right: .25em;
+	height: 1.2em;
+	vertical-align: bottom;
+}
+
+/* Utilities */
+.Base-module_tooltip__1pSM2, .Base-module_tooltip__1pSM2 * {
+	box-sizing: border-box;
+}
+
+.Base-module_tooltip__1pSM2 dl {
+	margin: 0;
+}
+
+.Base-module_tooltip__1pSM2 dd {
+	margin: 0;
+}
+
+/* Main tooltip block itself */
+.Base-module_tooltip__1pSM2 {
+	position: relative;
+	border: 1px solid #111;
+	border-radius: 5px;
+	width: 330px;
+	background: #282828;
+	color: white;
+	font: 12px/18px Arial, 'Helvetica Neue', Helvetica, sans-serif;
+	box-shadow: inset 0 0 3px #444, 0 0 10px 2px #111;
+}
+
+/* Header */
+.Base-module_header__20oAN {
+	display: flex;
+	align-items: center;
+	background-color: rgba(0, 0, 0, .3);
+}
+
+.Base-module_iconHolder__1Mvs2 {
+	position: relative;
+	flex: 0 0 60px;
+	height: 60px;
+	background-color: #111;
+}
+
+.Base-module_iconHolder__1Mvs2 > img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.Base-module_titleContainer__2GXeW {
+	padding: 0 15px;
+	min-width: 0;
+	width: 100%;
+}
+
+.Base-module_name__sFJ0s {
+	font-size: 16px;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.Base-module_category__BjSWx {
+	color: #ffc99a;
+	font-size: 12px;
+}
+
+/* Description */
+.Base-module_description__3_vS- {
+	margin: 0;
+	border-top: 1px solid #111;
+	padding: 8px;
+	background: #222;
+	font-size: 11px;
+}
+
+/* That last thing */
+.Base-module_attribution__3t60Y {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: block;
+	font-size: 10px;
+	line-height: 10px;
+	padding: 3px;
+	color: #666;
+	text-align: right;
+	text-decoration: none;
+}
+
+.Action-module_headerMeta__3szJT {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	margin-left: auto;
+	padding-right: 15px;
+}
+
+.Action-module_headerMeta__3szJT > dt {
+	color: #aaa;
+	margin-right: 6px;
+}
+
+.Action-module_meta__LBDsx {
+	display: flex;
+	flex-wrap: wrap;
+	padding: 8px;
+}
+
+.Action-module_meta__LBDsx > * {
+	flex: 1 0 50%;
+}
+
+.Action-module_meta__LBDsx > dt {
+	color: #ffc99a;
+}
+
+/* Major stats things */
+.MajorStats-module_majorStats__1rOqY {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px;
+	background-color: rgba(0, 0, 0, .3);
+	border-bottom: 1px solid #111;
+}
+
+.MajorStats-module_majorStats__1rOqY > div {
+	position: relative;
+	padding-bottom: 2px;
+	width: 32%;
+	text-align: right;
+}
+
+.MajorStats-module_stat__3fynC::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border-radius: 5px;
+	background: rgba(255, 255, 255, .2);
+	width: 100%;
+	height: 6px;
+}
+
+.MajorStats-module_name__6CSgY {
+	color: #ffc99a;
+}
+
+.MajorStats-module_value__2ugLW {
+	font-size: 20px;
+	font-weight: bold;
+}

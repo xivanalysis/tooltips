@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {debounce, get, set, mapValues} from 'lodash'
+import {debounce, get, set, mapValues} from 'lodash-es'
 import PropTypes from 'prop-types'
 import React from 'react'
 
