@@ -1,5 +1,6 @@
 import React from 'react'
 
+import MajorStats from 'sections/MajorStats'
 import styles from './Action.module.css'
 import Base from './Base'
 
@@ -64,21 +65,11 @@ export default class Action extends Base {
 				</dl>
 			</div>
 
-			{/* Major stats that the game displays massive for w/e reason */}
-			<div className={styles.majorStats}>
-				<div>
-					<div className={styles.key}>Cast</div>
-					<div className={styles.value}>{castTime}</div>
-				</div>
-				<div>
-					<div className={styles.key}>Recast</div>
-					<div className={styles.value}>{recastTime}</div>
-				</div>
-				<div>
-					<div className={styles.key}>Cost</div>
-					<div className={styles.value}>{data.resourceCost}</div>
-				</div>
-			</div>
+			<MajorStats stats={[
+				{name: 'Cast', value: castTime},
+				{name: 'Recast', value: recastTime},
+				{name: 'Cost', value: data.resourceCost},
+			]}/>
 
 			{/* Description */}
 			<p
@@ -88,7 +79,7 @@ export default class Action extends Base {
 
 			{/* Meta */}
 			<dl className={styles.meta}>
-				<dt>Acquired</dt><dd>{data.learntBy} {data.learntAt}</dd>
+				<dt>Acquired</dt><dd>{data.learntBy} Lv. {data.learntAt}</dd>
 				<dt>Affinity</dt><dd>{data.affinity}</dd>
 			</dl>
 
