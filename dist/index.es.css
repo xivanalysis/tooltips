@@ -20,6 +20,7 @@
 .Action-module_meta__LBDsx {
 	display: flex;
 	flex-wrap: wrap;
+	border-top: 1px solid #111;
 	padding: 8px;
 }
 
@@ -123,9 +124,9 @@
 .MajorStats-module_majorStats__1rOqY {
 	display: flex;
 	justify-content: space-between;
+	border-top: 1px solid #111;
 	padding: 8px;
 	background-color: rgba(0, 0, 0, .3);
-	border-bottom: 1px solid #111;
 }
 
 .MajorStats-module_majorStats__1rOqY > div {
