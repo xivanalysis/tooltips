@@ -70,14 +70,19 @@ export default class Action extends Base {
 			(data.castTime / CAST_TIME_DIVISOR).toFixed(2) + 's' :
 			'Instant'
 
-		const recastTime = (data.recastTime / CAST_TIME_DIVISOR).toFixed(2) + 's'
-
-		// We only want to show the cost major stat if there _is_ a cost
+		// Cast time is always shown
 		const majorStats = [
 			{name: 'Cast', value: castTime},
-			{name: 'Recast', value: recastTime},
 		]
-		if (data.cost) {
+
+		// Only show recast if it's >0
+		majorStats.push(data.recastTime ?
+			{name: 'Recast', value: (data.recastTime / CAST_TIME_DIVISOR).toFixed(2) + 's'} :
+			null
+		)
+
+		// Only show cost if there is one and it's one of the costs we support (gauge shows up in the same fields)
+		if (data.cost && COST_TYPE_NAME[data.costType]) {
 			let cost = data.cost
 
 			if (data.costType === COST_TYPE.MP) {

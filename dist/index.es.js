@@ -389,18 +389,19 @@ function (_Base) {
     value: function renderDescription() {
       var data = this.props.data; // Cast times are stored in 100ms units
 
-      var castTime = data.castTime ? (data.castTime / CAST_TIME_DIVISOR).toFixed(2) + 's' : 'Instant';
-      var recastTime = (data.recastTime / CAST_TIME_DIVISOR).toFixed(2) + 's'; // We only want to show the cost major stat if there _is_ a cost
+      var castTime = data.castTime ? (data.castTime / CAST_TIME_DIVISOR).toFixed(2) + 's' : 'Instant'; // Cast time is always shown
 
       var majorStats = [{
         name: 'Cast',
         value: castTime
-      }, {
-        name: 'Recast',
-        value: recastTime
-      }];
+      }]; // Only show recast if it's >0
 
-      if (data.cost) {
+      majorStats.push(data.recastTime ? {
+        name: 'Recast',
+        value: (data.recastTime / CAST_TIME_DIVISOR).toFixed(2) + 's'
+      } : null); // Only show cost if there is one and it's one of the costs we support (gauge shows up in the same fields)
+
+      if (data.cost && COST_TYPE_NAME[data.costType]) {
         var cost = data.cost;
 
         if (data.costType === COST_TYPE.MP) {
