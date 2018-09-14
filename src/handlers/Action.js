@@ -23,7 +23,7 @@ export default class Action extends Base {
 	static columns = {
 		...Base.columns,
 
-		actionCategory: 'ActionCategory.Name',
+		category: 'ActionCategory.Name',
 		range: 'Range',
 		radius: 'EffectRange',
 
