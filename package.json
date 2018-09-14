@@ -11,7 +11,7 @@
     "build": "rollup -c"
   },
   "dependencies": {
-    "lodash-es": "^4.17.11",
+    "lodash": "^4.17.11",
     "prop-types": "^15.6.2"
   },
   "devDependencies": {
@@ -25,6 +25,7 @@
     "axios": "^0.18.0",
     "babel-eslint": "^9.0.0",
     "babel-loader": "^8.0.2",
+    "babel-plugin-lodash": "^3.3.4",
     "eslint": "^5.5.0",
     "eslint-plugin-xivanalysis": "xivanalysis/linter",
     "moment": "^2.22.2",

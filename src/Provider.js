@@ -1,4 +1,4 @@
-import {debounce, get, set, mapValues} from 'lodash-es'
+import {debounce, get, set, mapValues} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { debounce, get, set, mapValues } from 'lodash-es';
+import _mapValues from 'lodash/mapValues';
+import _set from 'lodash/set';
+import _get from 'lodash/get';
+import _debounce from 'lodash/debounce';
 import Popup from 'reactjs-popup';
 
 function _classCallCheck(instance, Constructor) {
@@ -115,11 +118,11 @@ function _superPropBase(object, property) {
   return object;
 }
 
-function _get(target, property, receiver) {
+function _get$1(target, property, receiver) {
   if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
+    _get$1 = Reflect.get;
   } else {
-    _get = function _get(target, property, receiver) {
+    _get$1 = function _get$$1(target, property, receiver) {
       var base = _superPropBase(target, property);
 
       if (!base) return;
@@ -133,7 +136,7 @@ function _get(target, property, receiver) {
     };
   }
 
-  return _get(target, property, receiver || target);
+  return _get$1(target, property, receiver || target);
 }
 
 function _slicedToArray(arr, i) {
@@ -377,7 +380,7 @@ function (_Base) {
         range = MELEE_RANGE;
       }
 
-      return React.createElement(React.Fragment, null, _get(_getPrototypeOf(Action.prototype), "renderHeader", this).call(this), React.createElement("dl", {
+      return React.createElement(React.Fragment, null, _get$1(_getPrototypeOf(Action.prototype), "renderHeader", this).call(this), React.createElement("dl", {
         className: styles$1.headerMeta
       }, React.createElement("dt", null, "Range"), React.createElement("dd", null, range, "y"), React.createElement("dt", null, "Radius"), React.createElement("dd", null, data.radius, "y")));
     }
@@ -412,7 +415,7 @@ function (_Base) {
 
       return React.createElement(React.Fragment, null, React.createElement(MajorStats, {
         stats: majorStats
-      }), _get(_getPrototypeOf(Action.prototype), "renderDescription", this).call(this));
+      }), _get$1(_getPrototypeOf(Action.prototype), "renderDescription", this).call(this));
     }
   }, {
     key: "renderFooter",
@@ -489,7 +492,7 @@ function (_React$Component) {
       baseURL: _this.props.baseUrl || DEFAULT_BASE_URL
     }); // Set up the debounced processing func
 
-    _this.run = debounce(_this._process.bind(_assertThisInitialized(_assertThisInitialized(_this))), _this.props.debounceDelay || DEFAULT_DEBOUNCE_DELAY);
+    _this.run = _debounce(_this._process.bind(_assertThisInitialized(_assertThisInitialized(_this))), _this.props.debounceDelay || DEFAULT_DEBOUNCE_DELAY);
     return _this;
   }
 
@@ -497,9 +500,13 @@ function (_React$Component) {
     key: "load",
     value: function load(type, id) {
       var path = [this.props.language, type];
-      var typePending = get(this.pending, path, []);
+
+      var typePending = _get(this.pending, path, []);
+
       typePending.push(id);
-      set(this.pending, path, typePending);
+
+      _set(this.pending, path, typePending);
+
       this.run();
     }
   }, {
@@ -532,9 +539,10 @@ function (_React$Component) {
           var results = response.data.Results; // Transform the response data into our representation and key by id
 
           var keyedResults = results.reduce(function (carry, content) {
-            var mapped = mapValues(handler.columns, function (value) {
-              return get(content, value, null);
+            var mapped = _mapValues(handler.columns, function (value) {
+              return _get(content, value, null);
             });
+
             carry[mapped.id] = mapped;
             return carry;
           }, {}); // Set the new results in place
@@ -542,7 +550,8 @@ function (_React$Component) {
           _this2.setState(function (state) {
             var newState = _objectSpread({}, state);
 
-            set(newState, ['data', language, type], keyedResults);
+            _set(newState, ['data', language, type], keyedResults);
+
             return newState;
           });
         });
@@ -601,8 +610,9 @@ var tooltipHOC = (function (Component) {
           var baseUrl = _ref.baseUrl,
               data = _ref.data,
               load = _ref.load;
+
           // Grab the data from the provider (using lodash because ez)
-          var tooltipData = get(data, [type, id], null);
+          var tooltipData = _get(data, [type, id], null);
 
           var props = _objectSpread({}, _this.props, {
             // HOC props, overriding if req.
