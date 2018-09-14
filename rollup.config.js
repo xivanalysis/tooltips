@@ -16,8 +16,11 @@ export default {
 		file: packageJson.module,
 		format: 'es',
 	}],
+
 	plugins: [
-		external(),
+		external({
+			includeDependencies: true,
+		}),
 		postcss({
 			modules: true,
 			extract: true,
@@ -29,4 +32,7 @@ export default {
 		}),
 		commonjs(),
 	],
+
+	// The external() above does this for deps and peerDeps, but I'm a hipster and used optDeps for a package
+	external: ['reactjs-popup'],
 }
