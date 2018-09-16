@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import _merge from 'lodash/merge';
 import _mapValues from 'lodash/mapValues';
 import _set from 'lodash/set';
 import _get from 'lodash/get';
 import _debounce from 'lodash/debounce';
+import _cloneDeep from 'lodash/cloneDeep';
 import Popup from 'reactjs-popup';
 
 function _classCallCheck(instance, Constructor) {
@@ -525,7 +527,23 @@ function (_React$Component) {
             type = _ref2[0],
             ids = _ref2[1];
 
-        // Grab the handler for this type
+        // Mark these ids as being loaded
+        _this2.setState(function (state) {
+          var newState = _cloneDeep(state);
+
+          var loading = ids.reduce(function (carry, id) {
+            carry[id] = null;
+            return carry;
+          }, {});
+
+          _merge(newState, {
+            data: _defineProperty({}, language, _defineProperty({}, type, loading))
+          });
+
+          return newState;
+        }); // Grab the handler for this type
+
+
         var handler = getHandler(type); // Run the data request
         // TODO: Pagination?
 
@@ -549,9 +567,11 @@ function (_React$Component) {
           }, {}); // Set the new results in place
 
           _this2.setState(function (state) {
-            var newState = _objectSpread({}, state);
+            var newState = _cloneDeep(state);
 
-            _set(newState, ['data', language, type], keyedResults);
+            _merge(newState, {
+              data: _defineProperty({}, language, _defineProperty({}, type, keyedResults))
+            });
 
             return newState;
           });
@@ -613,7 +633,8 @@ var tooltipHOC = (function (Component) {
               load = _ref.load;
 
           // Grab the data from the provider (using lodash because ez)
-          var tooltipData = _get(data, [type, id], null);
+          var tooltipData = _get(data, [type, id], undefined); // Build props for the wrapped component
+
 
           var props = _objectSpread({}, _this.props, {
             // HOC props, overriding if req.
@@ -621,13 +642,12 @@ var tooltipHOC = (function (Component) {
             loading: !tooltipData,
             data: tooltipData,
             Content: null // If the data hasn't been loaded yet, request it, otherwise prep a handler
-            // TODO: Probably should have the data say if it's loading already
 
           });
 
-          if (!tooltipData) {
+          if (tooltipData === undefined) {
             load(type, id);
-          } else {
+          } else if (tooltipData) {
             props.Content = function () {
               return React.createElement(Handler, {
                 data: tooltipData,
