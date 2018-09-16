@@ -104,9 +104,11 @@ export default class Action extends Base {
 	renderFooter() {
 		const {data} = this.props
 
-		return <dl className={styles.meta}>
-			<dt>Acquired</dt><dd>{data.learntBy} Lv. {data.learntAt}</dd>
-			<dt>Affinity</dt><dd>{data.affinity}</dd>
-		</dl>
+		return <table className={styles.meta}>
+			<tbody>
+				<tr><th scope="row">Acquired</th><td>{data.learntBy} Lv. {data.learntAt}</td></tr>
+				<tr><th scope="row">Affinity</th><td>{data.affinity}</td></tr>
+			</tbody>
+		</table>
 	}
 }

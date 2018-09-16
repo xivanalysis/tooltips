@@ -430,9 +430,13 @@ function (_Base) {
     key: "renderFooter",
     value: function renderFooter() {
       var data = this.props.data;
-      return React.createElement("dl", {
+      return React.createElement("table", {
         className: styles$1.meta
-      }, React.createElement("dt", null, "Acquired"), React.createElement("dd", null, data.learntBy, " Lv. ", data.learntAt), React.createElement("dt", null, "Affinity"), React.createElement("dd", null, data.affinity));
+      }, React.createElement("tbody", null, React.createElement("tr", null, React.createElement("th", {
+        scope: "row"
+      }, "Acquired"), React.createElement("td", null, data.learntBy, " Lv. ", data.learntAt)), React.createElement("tr", null, React.createElement("th", {
+        scope: "row"
+      }, "Affinity"), React.createElement("td", null, data.affinity))));
     }
   }]);
 
