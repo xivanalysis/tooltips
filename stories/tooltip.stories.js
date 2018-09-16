@@ -15,9 +15,10 @@ storiesOf('Custom', module)
 
 storiesOf('Action', module)
 	.add('Weaponskill', () => <Tooltip type="Action" id={42}/>)
-	.add('Spell', () => <Tooltip type="Action" id={3579} />)
-	.add('Ability', () => <Tooltip type="Action" id={7562} />)
-	.add('LimitBreak', () => <Tooltip type="Action" id={4246} />)
+	.add('Spell', () => <Tooltip type="Action" id={3579}/>)
+	.add('Ability', () => <Tooltip type="Action" id={7562}/>)
+	.add('LimitBreak', () => <Tooltip type="Action" id={4246}/>)
+	.add('Gathering', () => <Tooltip type="Action" id={241}/>)
 
 storiesOf('Status', module)
 	.add('Status', () => <Tooltip type="Status" id="44"/>)

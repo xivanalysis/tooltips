@@ -348,10 +348,11 @@ var CAST_TIME_DIVISOR = 10; // Only get costTypes as IDs
 
 var COST_TYPE = {
   MP: 3,
-  TP: 5 // Overkill? Overkill.
+  TP: 5,
+  GP: 7 // Overkill? Overkill.
 
 };
-var COST_TYPE_NAME = (_COST_TYPE_NAME = {}, _defineProperty(_COST_TYPE_NAME, COST_TYPE.MP, 'MP'), _defineProperty(_COST_TYPE_NAME, COST_TYPE.TP, 'TP'), _COST_TYPE_NAME);
+var COST_TYPE_NAME = (_COST_TYPE_NAME = {}, _defineProperty(_COST_TYPE_NAME, COST_TYPE.MP, 'MP'), _defineProperty(_COST_TYPE_NAME, COST_TYPE.TP, 'TP'), _defineProperty(_COST_TYPE_NAME, COST_TYPE.GP, 'GP'), _COST_TYPE_NAME);
 
 var Action =
 /*#__PURE__*/

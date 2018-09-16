@@ -11,12 +11,14 @@ const CAST_TIME_DIVISOR = 10
 const COST_TYPE = {
 	MP: 3,
 	TP: 5,
+	GP: 7,
 }
 
 // Overkill? Overkill.
 const COST_TYPE_NAME = {
 	[COST_TYPE.MP]: 'MP',
 	[COST_TYPE.TP]: 'TP',
+	[COST_TYPE.GP]: 'GP',
 }
 
 export default class Action extends Base {
