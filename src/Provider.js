@@ -1,4 +1,4 @@
-import {debounce, get, set, mapValues} from 'lodash'
+import {cloneDeep, debounce, get, set, mapValues, merge} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -93,8 +93,8 @@ export default class Provider extends React.Component {
 
 				// Set the new results in place
 				this.setState(state => {
-					const newState = {...state}
-					set(newState, ['data', language, type], keyedResults)
+					const newState = cloneDeep(state)
+					merge(newState, {data: {[language]: {[type]: keyedResults}}})
 					return newState
 				})
 			})
