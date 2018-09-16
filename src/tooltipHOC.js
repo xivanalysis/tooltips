@@ -20,7 +20,9 @@ export default Component => {
 
 			return <Consumer>{({baseUrl, data, load}) => {
 				// Grab the data from the provider (using lodash because ez)
-				const tooltipData = get(data, [type, id], null)
+				const tooltipData = get(data, [type, id], undefined)
+
+				// Build props for the wrapped component
 				const props = {
 					// Pass through props
 					...this.props,
@@ -33,10 +35,9 @@ export default Component => {
 				}
 
 				// If the data hasn't been loaded yet, request it, otherwise prep a handler
-				// TODO: Probably should have the data say if it's loading already
-				if (!tooltipData) {
+				if (tooltipData === undefined) {
 					load(type, id)
-				} else {
+				} else if (tooltipData) {
 					props.Content = () => <Handler data={tooltipData} baseUrl={baseUrl}/>
 				}
 

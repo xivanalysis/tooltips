@@ -69,6 +69,17 @@ export default class Provider extends React.Component {
 		// We need to do a seperate request for each content type
 		// For simplicity's sake, only request for the current lang
 		Object.entries(pending[language]).forEach(([type, ids]) => {
+			// Mark these ids as being loaded
+			this.setState(state => {
+				const newState = cloneDeep(state)
+				const loading = ids.reduce((carry, id) => {
+					carry[id] = null
+					return carry
+				}, {})
+				merge(newState, {data: {[language]: {[type]: loading}}})
+				return newState
+			})
+
 			// Grab the handler for this type
 			const handler = getHandler(type)
 
