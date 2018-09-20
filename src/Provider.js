@@ -54,8 +54,8 @@ export default class Provider extends React.Component {
 
 	load(type, id) {
 		const path = [this.props.language, type]
-		const typePending = get(this.pending, path, [])
-		typePending.push(id)
+		const typePending = get(this.pending, path, new Set())
+		typePending.add(id)
 		set(this.pending, path, typePending)
 		this.run()
 	}
@@ -68,7 +68,9 @@ export default class Provider extends React.Component {
 
 		// We need to do a seperate request for each content type
 		// For simplicity's sake, only request for the current lang
-		Object.entries(pending[language]).forEach(([type, ids]) => {
+		Object.entries(pending[language]).forEach(([type, idSet]) => {
+			const ids = Array.from(idSet)
+
 			// Mark these ids as being loaded
 			this.setState(state => {
 				const newState = cloneDeep(state)

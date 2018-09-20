@@ -509,9 +509,9 @@ function (_React$Component) {
     value: function load(type, id) {
       var path = [this.props.language, type];
 
-      var typePending = _get(this.pending, path, []);
+      var typePending = _get(this.pending, path, new Set());
 
-      typePending.push(id);
+      typePending.add(id);
 
       _set(this.pending, path, typePending);
 
@@ -530,9 +530,10 @@ function (_React$Component) {
       Object.entries(pending[language]).forEach(function (_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             type = _ref2[0],
-            ids = _ref2[1];
+            idSet = _ref2[1];
 
-        // Mark these ids as being loaded
+        var ids = Array.from(idSet); // Mark these ids as being loaded
+
         _this2.setState(function (state) {
           var newState = _cloneDeep(state);
 
