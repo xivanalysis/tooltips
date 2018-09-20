@@ -499,7 +499,8 @@ function (_React$Component) {
 
     _this.state = {
       data: {},
-      load: _this.load.bind(_assertThisInitialized(_assertThisInitialized(_this))) // Set up our endpoint with axios.
+      load: _this.load.bind(_assertThisInitialized(_assertThisInitialized(_this))),
+      trigger: false // Set up our endpoint with axios.
 
     };
     _this.endpoint = axios.create({
@@ -549,7 +550,8 @@ function (_React$Component) {
           }, {});
 
           _merge(newState, {
-            data: _defineProperty({}, language, _defineProperty({}, type, loading))
+            data: _defineProperty({}, language, _defineProperty({}, type, loading)),
+            trigger: type
           });
 
           return newState;
@@ -582,7 +584,8 @@ function (_React$Component) {
             var newState = _cloneDeep(state);
 
             _merge(newState, {
-              data: _defineProperty({}, language, _defineProperty({}, type, keyedResults))
+              data: _defineProperty({}, language, _defineProperty({}, type, keyedResults)),
+              trigger: type
             });
 
             return newState;
@@ -642,11 +645,15 @@ var tooltipHOC = (function (Component) {
         return React.createElement(Consumer, null, function (_ref) {
           var baseUrl = _ref.baseUrl,
               data = _ref.data,
-              load = _ref.load;
+              load = _ref.load,
+              _ref$trigger = _ref.trigger,
+              trigger = _ref$trigger === void 0 ? false : _ref$trigger;
 
           // Grab the data from the provider (using lodash because ez)
-          var tooltipData = _get(data, [type, id], undefined); // Build props for the wrapped component
+          var tooltipData = _get(data, [type, id], undefined); // If a trigger is set and it's not our type, don't bother updating.
 
+
+          var shouldLoad = tooltipData === undefined && (!trigger || trigger === type); // Build props for the wrapped component
 
           var props = _objectSpread({}, _this.props, {
             // HOC props, overriding if req.
@@ -657,7 +664,7 @@ var tooltipHOC = (function (Component) {
 
           });
 
-          if (tooltipData === undefined) {
+          if (shouldLoad) {
             load(type, id);
           } else if (tooltipData) {
             props.Content = function () {

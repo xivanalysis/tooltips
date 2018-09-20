@@ -18,9 +18,12 @@ export default Component => {
 			// Get the handler we'll be rendering for this type
 			const Handler = getHandler(type)
 
-			return <Consumer>{({baseUrl, data, load}) => {
+			return <Consumer>{({baseUrl, data, load, trigger = false}) => {
 				// Grab the data from the provider (using lodash because ez)
 				const tooltipData = get(data, [type, id], undefined)
+
+				// If a trigger is set and it's not our type, don't bother updating.
+				const shouldLoad = tooltipData === undefined && (!trigger || trigger === type)
 
 				// Build props for the wrapped component
 				const props = {
@@ -35,7 +38,7 @@ export default Component => {
 				}
 
 				// If the data hasn't been loaded yet, request it, otherwise prep a handler
-				if (tooltipData === undefined) {
+				if (shouldLoad) {
 					load(type, id)
 				} else if (tooltipData) {
 					props.Content = () => <Handler data={tooltipData} baseUrl={baseUrl}/>

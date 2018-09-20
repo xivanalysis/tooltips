@@ -38,6 +38,7 @@ export default class Provider extends React.Component {
 		this.state = {
 			data: {},
 			load: this.load.bind(this),
+			trigger: false,
 		}
 
 		// Set up our endpoint with axios.
@@ -78,7 +79,10 @@ export default class Provider extends React.Component {
 					carry[id] = null
 					return carry
 				}, {})
-				merge(newState, {data: {[language]: {[type]: loading}}})
+				merge(newState, {
+					data: {[language]: {[type]: loading}},
+					trigger: type,
+				})
 				return newState
 			})
 
@@ -107,7 +111,10 @@ export default class Provider extends React.Component {
 				// Set the new results in place
 				this.setState(state => {
 					const newState = cloneDeep(state)
-					merge(newState, {data: {[language]: {[type]: keyedResults}}})
+					merge(newState, {
+						data: {[language]: {[type]: keyedResults}},
+						trigger: type,
+					})
 					return newState
 				})
 			})
