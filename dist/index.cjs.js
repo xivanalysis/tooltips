@@ -529,7 +529,9 @@ function (_React$Component) {
     value: function _process() {
       var _this2 = this;
 
-      var language = this.props.language;
+      var _this$props = this.props,
+          apiKey = _this$props.apiKey,
+          language = _this$props.language;
       var pending = this.pending;
       this.pending = {}; // We need to do a seperate request for each content type
       // For simplicity's sake, only request for the current lang
@@ -565,7 +567,8 @@ function (_React$Component) {
           params: {
             ids: ids.join(','),
             columns: Object.values(handler.columns).join(','),
-            language: language
+            language: language,
+            key: apiKey
           }
         }).then(function (response) {
           // TODO: Sanity check the response?
@@ -612,7 +615,8 @@ _defineProperty(Provider$1, "propTypes", {
   children: PropTypes.node,
   baseUrl: PropTypes.string,
   debounceDelay: PropTypes.number,
-  language: PropTypes.string
+  language: PropTypes.string,
+  apiKey: PropTypes.string
 });
 
 _defineProperty(Provider$1, "defaultProps", {
