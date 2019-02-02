@@ -3,6 +3,11 @@ module.exports = {
 		'plugin:xivanalysis/recommended',
 		'plugin:xivanalysis/client',
 	],
+	settings: {
+		react: {
+			version: 'detect',
+		},
+	},
 	env: {
 		browser: true,
 	},

@@ -1,20 +1,29 @@
 {
   "name": "@xivanalysis/tooltips",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Tooltips for xivanalysis, using data from xivapi",
-  "private": true,
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
   "scripts": {
     "storybook": "start-storybook -p 6006 -c .storybook",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "lint": "eslint src",
+    "prepare": "yarn run build"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn build && git add dist"
+      "pre-commit": "lint-staged"
     }
   },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.js{,x}": ["eslint"]
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2"
@@ -34,6 +43,7 @@
     "eslint": "^5.5.0",
     "eslint-plugin-xivanalysis": "xivanalysis/linter",
     "husky": "^1.0.0-rc.14",
+    "lint-staged": "^8.1.1",
     "moment": "^2.22.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
