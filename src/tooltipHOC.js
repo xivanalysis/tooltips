@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import {getHandler} from './handlers'
-import {Consumer} from './Context'
+import {Consumer, LOADING} from './Context'
 
 export default Component => {
 	class TooltipHOC extends React.PureComponent {
@@ -32,7 +32,7 @@ export default Component => {
 
 					// HOC props, overriding if req.
 					baseUrl,
-					loading: !tooltipData,
+					loading: shouldLoad || tooltipData === LOADING,
 					data: tooltipData,
 					Content: null,
 				}

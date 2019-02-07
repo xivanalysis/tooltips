@@ -2,7 +2,7 @@ import {cloneDeep, debounce, get, set, mapValues, merge} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import {Provider as ReactProvider} from './Context'
+import {Provider as ReactProvider, LOADING} from './Context'
 import {getHandler} from './handlers'
 
 // Need to use old style require due to something wonky somewhere
@@ -85,7 +85,7 @@ export default class Provider extends React.Component {
 			pendingEntries.forEach(([type, idSet]) => {
 				loading[type] = {}
 				idSet.forEach(id => {
-					loading[type][id] = null
+					loading[type][id] = LOADING
 				})
 			})
 
