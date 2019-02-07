@@ -39,7 +39,6 @@ export default class Provider extends React.Component {
 		this.state = {
 			data: {},
 			load: this.load.bind(this),
-			trigger: false,
 		}
 
 		// Set up our endpoint with axios.
@@ -56,36 +55,51 @@ export default class Provider extends React.Component {
 
 	load(type, id) {
 		const path = [this.props.language, type]
+
+		// If we've already started working on the requested data, don't do anything
+		const data = get(this.state.data, [...path, id])
+		if (data !== undefined) {
+			return
+		}
+
+		// Add it to the pending requests
 		const typePending = get(this.pending, path, new Set())
 		typePending.add(id)
 		set(this.pending, path, typePending)
+
+		// Fire off the request
 		this.run()
 	}
 
 	_process() {
 		const {apiKey, language} = this.props
 
-		const pending = this.pending
+		const pendingEntries = Object.entries(this.pending[language])
 		this.pending = {}
+
+		// Mark these ids as being loaded
+		this.setState(state => {
+			const newState = cloneDeep(state)
+
+			const loading = {}
+			pendingEntries.forEach(([type, idSet]) => {
+				loading[type] = {}
+				idSet.forEach(id => {
+					loading[type][id] = null
+				})
+			})
+
+			merge(newState, {
+				data: {[language]: loading},
+			})
+
+			return newState
+		})
 
 		// We need to do a seperate request for each content type
 		// For simplicity's sake, only request for the current lang
-		Object.entries(pending[language]).forEach(([type, idSet]) => {
+		pendingEntries.forEach(([type, idSet]) => {
 			const ids = Array.from(idSet)
-
-			// Mark these ids as being loaded
-			this.setState(state => {
-				const newState = cloneDeep(state)
-				const loading = ids.reduce((carry, id) => {
-					carry[id] = null
-					return carry
-				}, {})
-				merge(newState, {
-					data: {[language]: {[type]: loading}},
-					trigger: type,
-				})
-				return newState
-			})
 
 			// Grab the handler for this type
 			const handler = getHandler(type)
@@ -115,7 +129,6 @@ export default class Provider extends React.Component {
 					const newState = cloneDeep(state)
 					merge(newState, {
 						data: {[language]: {[type]: keyedResults}},
-						trigger: type,
 					})
 					return newState
 				})
