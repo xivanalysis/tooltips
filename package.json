@@ -1,6 +1,6 @@
 {
   "name": "@xivanalysis/tooltips",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Tooltips for xivanalysis, using data from xivapi",
   "license": "MIT",
   "repository": "xivanalysis/tooltips",
@@ -21,7 +21,9 @@
   },
   "lint-staged": {
     "linters": {
-      "src/**/*.js{,x}": ["eslint"]
+      "src/**/*.js{,x}": [
+        "eslint"
+      ]
     }
   },
   "files": [

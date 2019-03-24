@@ -18,7 +18,6 @@ export default class Provider extends React.Component {
 		baseUrl: PropTypes.string,
 		debounceDelay: PropTypes.number,
 		language: PropTypes.string,
-		apiKey: PropTypes.string,
 	}
 
 	static defaultProps = {
@@ -72,7 +71,7 @@ export default class Provider extends React.Component {
 	}
 
 	_process() {
-		const {apiKey, language} = this.props
+		const {language} = this.props
 
 		const pendingEntries = Object.entries(this.pending[language])
 		this.pending = {}
@@ -111,7 +110,6 @@ export default class Provider extends React.Component {
 					ids: ids.join(','),
 					columns: Object.values(handler.columns).join(','),
 					language,
-					key: apiKey,
 				},
 			}).then(response => {
 				// TODO: Sanity check the response?
