@@ -1,13 +1,10 @@
+import ky from 'ky'
 import {cloneDeep, debounce, get, set, mapValues, merge} from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 
 import {Provider as ReactProvider, LOADING} from './Context'
 import {getHandler} from './handlers'
-
-// Need to use old style require due to something wonky somewhere
-// eslint-disable-next-line no-undef
-const axios = require('axios')
 
 const DEFAULT_BASE_URL = 'https://xivapi.com/'
 const DEFAULT_DEBOUNCE_DELAY = 50
@@ -24,7 +21,6 @@ export default class Provider extends React.Component {
 		language: 'en',
 	}
 
-	// I like axios. Fight me.
 	endpoint = null
 
 	// Request queue handling
@@ -40,9 +36,9 @@ export default class Provider extends React.Component {
 			load: this.load.bind(this),
 		}
 
-		// Set up our endpoint with axios.
-		this.endpoint = axios.create({
-			baseURL: this.props.baseUrl || DEFAULT_BASE_URL,
+		// Set up our endpoint with ky.
+		this.endpoint = ky.create({
+			prefixUrl: this.props.baseUrl || DEFAULT_BASE_URL,
 		})
 
 		// Set up the debounced processing func
@@ -106,14 +102,14 @@ export default class Provider extends React.Component {
 			// Run the data request
 			// TODO: Pagination?
 			this.endpoint.get(type, {
-				params: {
+				searchParams: {
 					ids: ids.join(','),
 					columns: Object.values(handler.columns).join(','),
 					language,
 				},
-			}).then(response => {
+			}).json().then(data => {
 				// TODO: Sanity check the response?
-				const results = response.data.Results
+				const results = data.Results
 
 				// Transform the response data into our representation and key by id
 				const keyedResults = results.reduce((carry, content) => {
