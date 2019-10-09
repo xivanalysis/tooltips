@@ -52,6 +52,7 @@
     "moment": "^2.22.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "reactjs-popup": "^1.2.0",
     "rollup": "^0.65.2",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.1.6",
@@ -63,9 +64,12 @@
   "peerDependencies": {
     "ky": "^0.11.1",
     "react": "^16.5.0",
-    "react-dom": "^16.5.0"
-  },
-  "optionalDependencies": {
+    "react-dom": "^16.5.0",
     "reactjs-popup": "^1.2.0"
+  },
+  "peerDependenciesMeta": {
+    "reactjs-popup": {
+      "optional": true
+    }
   }
 }
