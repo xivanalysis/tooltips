@@ -1,6 +1,6 @@
 {
   "name": "@xivanalysis/tooltips",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Tooltips for xivanalysis, using data from xivapi",
   "license": "MIT",
   "repository": "xivanalysis/tooltips",
