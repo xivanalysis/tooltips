@@ -47,7 +47,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "eslint": "^5.5.0",
     "husky": "^1.0.0-rc.14",
-    "ky": "^0.11.1",
+    "ky": "^0.15",
     "lint-staged": "^8.1.1",
     "moment": "^2.22.2",
     "react": "^16.5.0",
@@ -62,7 +62,7 @@
     "rollup-plugin-postcss": "^1.6.2"
   },
   "peerDependencies": {
-    "ky": "^0.11.1",
+    "ky": "^0.15",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "reactjs-popup": "^1.2.0"
