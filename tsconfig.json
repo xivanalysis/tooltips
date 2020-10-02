@@ -1,15 +1,26 @@
 {
   "compilerOptions": {
-    "strict": true,
+		"strict": true,
+		
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"isolatedModules": true,
+
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "node",
+
 		"jsx": "preserve",
+
 		"forceConsistentCasingInFileNames": true,
-		"noEmit": true,
+		"incremental": true,
+
+		"declaration": true,
+		"stripInternal": true,
+		"emitDeclarationOnly": true,
+		"declarationDir": "lib",
+		"tsBuildInfoFile": "./lib/.tsbuildinfo"
   },
 	"include": ["src/**/*"],
+	"exclude": ["**/*.stories.*"]
 }

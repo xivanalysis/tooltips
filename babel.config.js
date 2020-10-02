@@ -8,5 +8,7 @@ module.exports = api => ({
     ['@babel/preset-react', {
       development: api.env('development'),
     }],
-  ]
+  ],
+  
+  ignore: [/.*\.stories\.[tj]sx?/],
 })
