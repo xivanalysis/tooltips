@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "strict": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"isolatedModules": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "node",
+		"jsx": "preserve",
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+  },
+	"include": ["src/**/*"],
+}
