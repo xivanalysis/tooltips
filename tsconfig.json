@@ -1,7 +1,7 @@
 {
-  "compilerOptions": {
+	"compilerOptions": {
 		"strict": true,
-		
+
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"isolatedModules": true,
@@ -20,7 +20,7 @@
 		"emitDeclarationOnly": true,
 		"declarationDir": "lib",
 		"tsBuildInfoFile": "./lib/.tsbuildinfo"
-  },
+	},
 	"include": ["src/**/*"],
 	"exclude": ["**/*.stories.*"]
 }
