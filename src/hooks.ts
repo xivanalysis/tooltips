@@ -4,10 +4,12 @@ import {Data, DataConstructor} from './data'
 
 export function useGameData<T extends Data>({
 	sheet,
+	columns,
 	id,
 	language,
 }: {
-	sheet: DataConstructor<T>
+	sheet: string
+	columns: DataConstructor<T>
 	id: number
 	language?: string
 }): T | undefined {
@@ -18,10 +20,10 @@ export function useGameData<T extends Data>({
 	const fetchLanguage = language ?? defaultLanguage
 
 	useEffect(() => {
-		fetchGameData({sheet, id, language: fetchLanguage}).then(data =>
+		fetchGameData({sheet, columns, id, language: fetchLanguage}).then(data =>
 			setData(data),
 		)
-	}, [fetchGameData, sheet, id, fetchLanguage])
+	}, [fetchGameData, sheet, columns, id, fetchLanguage])
 
 	return data
 }

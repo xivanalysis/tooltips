@@ -2,9 +2,7 @@ import React from 'react'
 import {useGameData} from './hooks'
 import {Data, column} from './data'
 
-export class ActionLabelData extends Data {
-	static sheet = 'Action'
-
+class LabelData extends Data {
 	@column('ID') id!: number
 	@column('Name') name!: string
 	@column('Icon') icon!: string
@@ -12,7 +10,8 @@ export class ActionLabelData extends Data {
 
 export function Label() {
 	const data = useGameData({
-		sheet: ActionLabelData,
+		sheet: 'Action',
+		columns: LabelData,
 		id: 3569,
 	})
 

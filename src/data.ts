@@ -1,22 +1,9 @@
 export interface DataConstructor<T extends Data> {
 	new (): T
-	sheet: string
 	columns?: Record<string, string>
 }
 
 export abstract class Data {
-	/** XIV sheet to request data from. */
-	private static _sheet?: string
-	static get sheet(): string {
-		if (this._sheet != null) {
-			return this._sheet
-		}
-		throw new Error(`Missing \`static sheet\` declaration on ${this.name}`)
-	}
-	static set sheet(value) {
-		this._sheet = value
-	}
-
 	/** Mapping of columns to the expected class property name for this data sheet. */
 	declare static columns?: Record<string, string>;
 

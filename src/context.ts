@@ -4,7 +4,8 @@ import {Data, DataConstructor} from './data'
 export interface ContextValue {
 	readonly defaultLanguage: string
 	fetchGameData: <T extends Data>(opts: {
-		sheet: DataConstructor<T>
+		sheet: string
+		columns: DataConstructor<T>
 		id: number
 		language: string
 	}) => Promise<T>
