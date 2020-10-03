@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react'
-import {TooltipContext} from './context'
+import {Context} from './context'
 
 // This isn't particularly typesafe, but hey, neither is xivapi.
 export function useGameData<T extends object>({
@@ -13,11 +13,11 @@ export function useGameData<T extends object>({
 	columns: string[]
 	language?: string
 }): T | undefined {
-	const {language: contextLanguage, fetchGameData} = useContext(TooltipContext)
+	const {defaultLanguage, fetchGameData} = useContext(Context)
 	const [data, setData] = useState<T>()
 
 	// Resolve language pre-effect so we don't retap effect if the final language doesn't change
-	const fetchLanguage = language ?? contextLanguage
+	const fetchLanguage = language ?? defaultLanguage
 
 	useEffect(() => {
 		fetchGameData({

@@ -1,5 +1,4 @@
-import React from 'react'
+import {Provider, ProviderProps} from './provider'
 
-export function Test() {
-	return <>test</>
-}
+export {Provider as TooltipProvider}
+export type {ProviderProps as TooltipProviderProps}

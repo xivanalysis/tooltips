@@ -1,7 +1,7 @@
 import React, {ReactNode} from 'react'
-import {TooltipContext, TooltipContextValue} from './context'
+import {Context, ContextValue} from './context'
 
-export interface TooltipProviderProps {
+export interface ProviderProps {
 	// TODO: Maybe allow overriding the entire fetch process so someone could use e.g. kobold?
 	/** Base FFXIV API URL. Defaults to `https://xivapi.com/` - any alternatives should match its schema. */
 	baseUrl?: string
@@ -13,14 +13,14 @@ export interface TooltipProviderProps {
 	children?: ReactNode
 }
 
-export function TooltipProvider({
+export function Provider({
 	baseUrl = 'https://xivapi.com/',
 	language = 'en',
 	children,
-}: TooltipProviderProps) {
+}: ProviderProps) {
 	// TODO: memo/cb/etc
-	const value: TooltipContextValue = {
-		language,
+	const value: ContextValue = {
+		defaultLanguage: language,
 		fetchGameData: ({sheet, id, columns, language}) => {
 			// TODO: request batching
 			return fetch(
@@ -31,7 +31,5 @@ export function TooltipProvider({
 		},
 	}
 
-	return (
-		<TooltipContext.Provider value={value}>{children}</TooltipContext.Provider>
-	)
+	return <Context.Provider value={value}>{children}</Context.Provider>
 }

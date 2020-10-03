@@ -1,7 +1,7 @@
 import {createContext} from 'react'
 
-export interface TooltipContextValue {
-	readonly language: string
+export interface ContextValue {
+	readonly defaultLanguage: string
 	fetchGameData: (opts: {
 		sheet: string
 		id: number
@@ -12,8 +12,8 @@ export interface TooltipContextValue {
 
 const providerMissingError = new Error('No TooltipProvider found!')
 
-export const TooltipContext = createContext<TooltipContextValue>({
-	get language(): string {
+export const Context = createContext<ContextValue>({
+	get defaultLanguage(): string {
 		throw providerMissingError
 	},
 	fetchGameData() {

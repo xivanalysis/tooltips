@@ -1,15 +1,15 @@
 import React from 'react'
 import {Label} from './label'
-import {TooltipProvider} from './provider'
+import {Provider} from './provider'
 
 export default {
 	title: 'Label',
 	component: Label,
 	decorators: [
 		Story => (
-			<TooltipProvider>
+			<Provider>
 				<Story />
-			</TooltipProvider>
+			</Provider>
 		),
 	],
 }
