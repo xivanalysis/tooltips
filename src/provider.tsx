@@ -21,13 +21,20 @@ export function Provider({
 	// TODO: memo/cb/etc
 	const value: ContextValue = {
 		defaultLanguage: language,
-		fetchGameData: ({sheet, id, columns, language}) => {
+		fetchGameData: ({sheet: Sheet, id, language}) => {
 			// TODO: request batching
+			const columns = Object.keys(Sheet.columns ?? {})
 			return fetch(
-				`${baseUrl}${sheet}/${id}?columns=${columns.join(
+				`${baseUrl}${Sheet.sheet}/${id}?columns=${columns.join(
 					',',
 				)}&language=${language}`,
-			).then(resp => resp.json())
+			)
+				.then(resp => resp.json())
+				.then(data => {
+					const sheet = new Sheet()
+					sheet.hydrate(data)
+					return sheet
+				})
 		},
 	}
 

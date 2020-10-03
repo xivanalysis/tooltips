@@ -1,16 +1,14 @@
 import {useContext, useEffect, useState} from 'react'
 import {Context} from './context'
+import {Data, DataConstructor} from './data'
 
-// This isn't particularly typesafe, but hey, neither is xivapi.
-export function useGameData<T extends object>({
+export function useGameData<T extends Data>({
 	sheet,
 	id,
-	columns,
 	language,
 }: {
-	sheet: string
+	sheet: DataConstructor<T>
 	id: number
-	columns: string[]
 	language?: string
 }): T | undefined {
 	const {defaultLanguage, fetchGameData} = useContext(Context)
@@ -20,13 +18,10 @@ export function useGameData<T extends object>({
 	const fetchLanguage = language ?? defaultLanguage
 
 	useEffect(() => {
-		fetchGameData({
-			sheet,
-			id,
-			columns,
-			language: fetchLanguage,
-		}).then(data => setData(data as T))
-	}, [fetchGameData, sheet, id, columns, fetchLanguage])
+		fetchGameData({sheet, id, language: fetchLanguage}).then(data =>
+			setData(data),
+		)
+	}, [fetchGameData, sheet, id, fetchLanguage])
 
 	return data
 }

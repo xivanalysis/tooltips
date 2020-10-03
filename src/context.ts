@@ -1,13 +1,13 @@
 import {createContext} from 'react'
+import {Data, DataConstructor} from './data'
 
 export interface ContextValue {
 	readonly defaultLanguage: string
-	fetchGameData: (opts: {
-		sheet: string
+	fetchGameData: <T extends Data>(opts: {
+		sheet: DataConstructor<T>
 		id: number
-		columns: string[]
 		language: string
-	}) => Promise<{[key: string]: unknown}>
+	}) => Promise<T>
 }
 
 const providerMissingError = new Error('No TooltipProvider found!')

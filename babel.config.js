@@ -1,18 +1,31 @@
+const getPlugins = isTSX => [
+	['@babel/plugin-transform-typescript', {
+		isTSX,
+		allowDeclareFields: true,
+	}],
+	['@babel/plugin-proposal-decorators', {
+		decoratorsBeforeExport: true,
+	}],
+	'@babel/plugin-proposal-class-properties',
+]
+
 module.exports = api => ({
 	presets: [
 		'@babel/preset-env',
-		[
-			'@babel/preset-typescript',
-			{
-				allowDeclareFields: true,
-			},
-		],
-		[
-			'@babel/preset-react',
-			{
-				development: api.env('development'),
-			},
-		],
+		['@babel/preset-react', {
+			development: api.env('development'),
+		}],
+	],
+
+	overrides: [
+		{
+			test: /\.ts$/,
+			plugins: getPlugins(false),
+		},
+		{
+			test: /\.tsx$/,
+			plugins: getPlugins(true),
+		},
 	],
 
 	ignore: [api.env('storybook') ? undefined : /.*\.stories\.[tj]sx?/].filter(
