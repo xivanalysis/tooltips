@@ -13,6 +13,7 @@ export function Label() {
 		id: 3569,
 		columns: ['ID', 'Name', 'Icon'],
 	})
+
 	return data == null ? (
 		<>waiting</>
 	) : (

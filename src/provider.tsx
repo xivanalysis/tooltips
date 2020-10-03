@@ -21,8 +21,13 @@ export function TooltipProvider({
 	// TODO: memo/cb/etc
 	const value: TooltipContextValue = {
 		language,
-		fetchGameData: () => {
-			return Promise.resolve({example: 'data'})
+		fetchGameData: ({sheet, id, columns, language}) => {
+			// TODO: request batching
+			return fetch(
+				`${baseUrl}${sheet}/${id}?columns=${columns.join(
+					',',
+				)}&language=${language}`,
+			).then(resp => resp.json())
 		},
 	}
 
