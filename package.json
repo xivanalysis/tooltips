@@ -9,8 +9,8 @@
 		"build": "concurrently --kill-others-on-fail --names compile,declare \"yarn compile\" \"yarn declare\"",
 		"compile": "babel src -d lib -x .ts,.tsx",
 		"declare": "tsc",
-		"storybook": "start-storybook -p 6006",
-		"storybook:build": "build-storybook"
+		"storybook": "NODE_ENV=storybook start-storybook -p 6006",
+		"storybook:build": "NODE_ENV=storybook build-storybook"
 	},
 	"dependencies": {},
 	"peerDependencies": {

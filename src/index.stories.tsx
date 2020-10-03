@@ -1,3 +1,4 @@
+import React from 'react'
 import {Test} from './index'
 
 export default {
@@ -5,4 +6,4 @@ export default {
 	component: Test,
 }
 
-export {Test}
+export const Test1 = () => <Test />

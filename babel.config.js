@@ -15,5 +15,7 @@ module.exports = api => ({
 		],
 	],
 
-	ignore: [/.*\.stories\.[tj]sx?/],
+	ignore: [api.env('storybook') ? undefined : /.*\.stories\.[tj]sx?/].filter(
+		pattern => pattern != null,
+	),
 })
