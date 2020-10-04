@@ -1,5 +1,5 @@
-import React, {ReactNode} from 'react'
-import {Context, ContextValue} from './context'
+import React, {ReactNode, useCallback, useMemo} from 'react'
+import {Context, ContextValue, FetchGameData} from './context'
 
 export interface ProviderProps {
 	// TODO: Maybe allow overriding the entire fetch process so someone could use e.g. kobold?
@@ -18,11 +18,8 @@ export function Provider({
 	language = 'en',
 	children,
 }: ProviderProps) {
-	// TODO: memo/cb/etc
-	const value: ContextValue = {
-		baseUrl,
-		defaultLanguage: language,
-		fetchGameData: ({sheet, columns: Columns, id, language}) => {
+	const fetchGameData = useCallback<FetchGameData>(
+		({sheet, columns: Columns, id, language}) => {
 			// TODO: request batching
 			const columns = Object.keys(Columns.columns ?? {}).join(',')
 			return fetch(
@@ -35,7 +32,17 @@ export function Provider({
 					return sheet
 				})
 		},
-	}
+		[baseUrl, language],
+	)
+
+	const value: ContextValue = useMemo(
+		() => ({
+			baseUrl,
+			defaultLanguage: language,
+			fetchGameData,
+		}),
+		[baseUrl, language, fetchGameData],
+	)
 
 	return <Context.Provider value={value}>{children}</Context.Provider>
 }
