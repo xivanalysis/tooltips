@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {ComponentType, ReactElement} from 'react'
 import {Label} from './label'
 import {Provider} from './provider'
 
@@ -10,7 +10,7 @@ export default {
 		id: 3569,
 	},
 	decorators: [
-		Story => (
+		(Story: ComponentType): ReactElement => (
 			<Provider>
 				<Story />
 			</Provider>
@@ -19,3 +19,10 @@ export default {
 }
 
 export {Label}
+
+export const MultipleLabels = (): ReactElement => (
+	<>
+		<Label sheet="Action" id={7505} />
+		<Label sheet="Action" id={7507} />
+	</>
+)

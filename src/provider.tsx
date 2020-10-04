@@ -1,4 +1,4 @@
-import React, {ReactNode, useCallback, useMemo} from 'react'
+import React, {ReactElement, ReactNode, useCallback, useMemo} from 'react'
 import {Context, ContextValue, FetchGameData} from './context'
 
 export interface ProviderProps {
@@ -17,7 +17,7 @@ export function Provider({
 	baseUrl = 'https://xivapi.com',
 	language = 'en',
 	children,
-}: ProviderProps) {
+}: ProviderProps): ReactElement {
 	const fetchGameData = useCallback<FetchGameData>(
 		({sheet, columns: Columns, id, language}) => {
 			// TODO: request batching
@@ -32,7 +32,7 @@ export function Provider({
 					return sheet
 				})
 		},
-		[baseUrl, language],
+		[baseUrl],
 	)
 
 	const value: ContextValue = useMemo(

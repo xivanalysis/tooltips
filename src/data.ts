@@ -12,7 +12,7 @@ export abstract class Data {
 	[key: string]: unknown
 
 	// Not using ctor due to prop initialisation woes
-	hydrate(data: Record<string, unknown>) {
+	hydrate(data: Record<string, unknown>): void {
 		const ctor = this.constructor as typeof Data
 
 		for (const [column, property] of Object.entries(ctor.columns ?? {})) {
@@ -23,7 +23,7 @@ export abstract class Data {
 
 /** Mark a property as a column to hydrate from XIV data. */
 export function column(column: string) {
-	return <T extends Data>(target: T, key: string) => {
+	return <T extends Data>(target: T, key: string): void => {
 		const ctor = target.constructor as typeof Data
 		ctor.columns = {
 			...ctor.columns,
