@@ -1,4 +1,5 @@
-import React, {ComponentType, ReactElement} from 'react'
+import {Meta} from '@storybook/react/types-6-0'
+import React, {ReactElement} from 'react'
 import {Label} from './label'
 import {Provider} from './provider'
 
@@ -7,16 +8,16 @@ export default {
 	component: Label,
 	args: {
 		sheet: 'Action',
-		id: 3569,
+		id: 7505,
 	},
 	decorators: [
-		(Story: ComponentType): ReactElement => (
+		Story => (
 			<Provider>
 				<Story />
 			</Provider>
 		),
 	],
-}
+} as Meta
 
 export {Label}
 
