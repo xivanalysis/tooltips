@@ -16,7 +16,13 @@ export abstract class Data {
 		const ctor = this.constructor as typeof Data
 
 		for (const [column, property] of Object.entries(ctor.columns ?? {})) {
-			this[property] = data[column]
+			const path = column.split('.')
+			let value = data
+			for (const key of path) {
+				value = value[key] as Record<string, unknown>
+			}
+
+			this[property] = value
 		}
 	}
 }
