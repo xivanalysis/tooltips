@@ -5,6 +5,10 @@ import {Provider} from './provider'
 export default {
 	title: 'Label',
 	component: Label,
+	args: {
+		sheet: 'Action',
+		id: 3569,
+	},
 	decorators: [
 		Story => (
 			<Provider>

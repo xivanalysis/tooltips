@@ -1,4 +1,5 @@
 const getPlugins = isTSX => [
+	'@compiled/babel-plugin-css-in-js',
 	['@babel/plugin-transform-typescript', {
 		isTSX,
 		allowDeclareFields: true,
