@@ -6,7 +6,7 @@ export type FetchGameData = <T extends Data>(opts: {
 	columns: DataConstructor<T>
 	id: number
 	language: string
-}) => Promise<T>
+}) => Promise<T | undefined>
 
 export interface ContextValue {
 	readonly baseUrl: string

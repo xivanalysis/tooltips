@@ -24,5 +24,7 @@ export const MultipleLabels = (): ReactElement => (
 	<>
 		<Label sheet="Action" id={7505} />
 		<Label sheet="Action" id={7507} />
+		<Label sheet="Status" id={1} />
+		<Label sheet="Status" id={2} />
 	</>
 )
