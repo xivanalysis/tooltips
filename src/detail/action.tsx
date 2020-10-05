@@ -5,6 +5,7 @@ import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
 import {HeroMeta, HeroMetaItem} from '../ui/heroMeta'
+import {Meta} from '../ui/meta'
 import {BaseData} from './base'
 
 const CAST_TIME_FACTOR = 0.1
@@ -29,6 +30,10 @@ class ActionData extends BaseData {
 
 	@column('PrimaryCostType') costType!: CostType
 	@column('PrimaryCostValue') cost!: number
+
+	@column('ClassJob.Abbreviation') learntBy!: string
+	@column('ClassJobLevel') learntAt!: number
+	@column('ClassJobCategory.Name') affinity!: string
 }
 
 export interface ActionContentProps {
@@ -43,7 +48,8 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 		id,
 	})
 
-	const heroStats = data && getHeroStats(data)
+	const meta = data && getMeta(data)
+	const heroMeta = data && getHeroMeta(data)
 
 	return (
 		<>
@@ -53,14 +59,21 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 				icon={data?.icon && baseUrl + data.icon}
 			/>
 
-			{heroStats && <HeroMeta items={heroStats} />}
+			{heroMeta && <HeroMeta items={heroMeta} />}
 
 			{data && <Description html={data.description} />}
+
+			{meta && <Meta items={meta} />}
 		</>
 	)
 }
 
-function getHeroStats(data: ActionData) {
+const getMeta = (data: ActionData) => [
+	{name: 'Acquired', value: `${data.learntBy} Lv. ${data.learntAt}`},
+	{name: 'Affinity', value: data.affinity},
+]
+
+function getHeroMeta(data: ActionData) {
 	// TODO: Work out how to localise this stuff
 	const stats: HeroMetaItem[] = [
 		{name: 'Cast', value: formatCastTime(data.castTime)},
