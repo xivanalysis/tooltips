@@ -9,9 +9,6 @@ export class BaseData extends Data {
 	@column('Name') name!: string
 	@column('Icon') icon!: string
 	@column('Description') description!: string
-
-	// TODO: This shouldn't be on the main detail - break out header component.
-	@column('ActionCategory.Name') category?: string
 }
 
 export interface BaseContentProps {
@@ -31,7 +28,6 @@ export function BaseContent({sheet, id}: BaseContentProps): ReactElement {
 		<>
 			<Header
 				title={data?.name ?? 'Loading'}
-				subtitle={data?.category}
 				icon={data?.icon && baseUrl + data.icon}
 			/>
 			{data && <Description html={data.description} />}

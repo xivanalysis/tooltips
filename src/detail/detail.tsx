@@ -1,5 +1,6 @@
 import {styled} from '@compiled/css-in-js'
 import React, {ReactElement} from 'react'
+import {ActionContent} from './action'
 import {BaseContent} from './base'
 
 export interface DetailProps {
@@ -12,7 +13,7 @@ export interface DetailProps {
 export function Detail({sheet, id}: DetailProps): ReactElement {
 	return (
 		<Container>
-			<BaseContent sheet={sheet} id={id} />
+			<Content sheet={sheet} id={id} />
 			<Attribution
 				href="https://xivapi.com"
 				target="_blank"
@@ -22,6 +23,15 @@ export function Detail({sheet, id}: DetailProps): ReactElement {
 			</Attribution>
 		</Container>
 	)
+}
+
+function Content({sheet, id}: DetailProps) {
+	switch (sheet.toLowerCase()) {
+		case 'action':
+			return <ActionContent id={id} />
+		default:
+			return <BaseContent sheet={sheet} id={id} />
+	}
 }
 
 const Container = styled.div({
