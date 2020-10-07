@@ -1,5 +1,5 @@
 import {styled} from '@compiled/css-in-js'
-import React, {ReactElement} from 'react'
+import React, {memo, ReactElement} from 'react'
 import {ActionContent} from './action'
 import {BaseContent} from './base'
 
@@ -10,7 +10,10 @@ export interface DetailProps {
 	id: number
 }
 
-export function Detail({sheet, id}: DetailProps): ReactElement {
+export const Detail = memo(function Detail({
+	sheet,
+	id,
+}: DetailProps): ReactElement {
 	return (
 		<Container>
 			<Content sheet={sheet} id={id} />
@@ -23,7 +26,7 @@ export function Detail({sheet, id}: DetailProps): ReactElement {
 			</Attribution>
 		</Container>
 	)
-}
+})
 
 function Content({sheet, id}: DetailProps) {
 	switch (sheet.toLowerCase()) {

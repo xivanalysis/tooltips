@@ -1,5 +1,5 @@
 import {styled} from '@compiled/css-in-js'
-import React, {ReactElement, useContext} from 'react'
+import React, {memo, ReactElement, useContext} from 'react'
 import {useGameData} from './hooks'
 import {Data, column} from './data'
 import {Context} from './context'
@@ -18,7 +18,11 @@ export interface LabelProps {
 	placeholderName?: string
 }
 
-export function Label({sheet, id, placeholderName}: LabelProps): ReactElement {
+export const Label = memo(function Label({
+	sheet,
+	id,
+	placeholderName,
+}: LabelProps): ReactElement {
 	const {baseUrl} = useContext(Context)
 	const data = useGameData({
 		sheet,
@@ -34,7 +38,7 @@ export function Label({sheet, id, placeholderName}: LabelProps): ReactElement {
 			<Text>{name}</Text>
 		</Container>
 	)
-}
+})
 
 const Container = styled.span({
 	display: 'inline-flex',

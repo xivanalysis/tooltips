@@ -1,11 +1,12 @@
 import {Meta} from '@storybook/react/types-6-0'
-import React from 'react'
-import {Detail} from './detail'
+import React, {ReactElement} from 'react'
+import {Detail as DetailComponent} from './detail'
+import {DetailProps} from './detail/detail'
 import {Provider} from './provider'
 
 export default {
 	title: 'Details',
-	component: Detail,
+	component: DetailComponent,
 	args: {
 		sheet: 'Action',
 		id: 7505,
@@ -19,4 +20,6 @@ export default {
 	],
 } as Meta
 
-export {Detail}
+export const Detail = (props: DetailProps): ReactElement => (
+	<DetailComponent {...props} />
+)
