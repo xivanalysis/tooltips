@@ -1,13 +1,9 @@
 import {styled} from '@compiled/css-in-js'
-import React, {ReactElement, ReactNode} from 'react'
-
-export interface HeroMetaItem {
-	name: string
-	value: ReactNode
-}
+import React, {ReactElement} from 'react'
+import {MetaItem} from './meta'
 
 export interface HeroMetaProps {
-	items: readonly HeroMetaItem[]
+	items: readonly MetaItem[]
 }
 
 export function HeroMeta({items}: HeroMetaProps): ReactElement {

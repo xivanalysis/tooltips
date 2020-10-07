@@ -3,13 +3,14 @@ import {column} from '../data'
 import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
-import {HeroMeta, HeroMetaItem} from '../ui/heroMeta'
+import {HeroMeta} from '../ui/heroMeta'
 import {Icon} from '../ui/icon'
-import {Meta} from '../ui/meta'
+import {Meta, MetaItem} from '../ui/meta'
 import {BaseData} from './base'
 
 const CAST_TIME_FACTOR = 0.1
 const MANA_COST_FACTOR = 100
+const MELEE_RANGE = 3
 
 enum CostType {
 	MP = 3,
@@ -24,6 +25,8 @@ const costTypeName: Record<CostType, string> = {
 
 class ActionData extends BaseData {
 	@column('ActionCategory.Name') category?: string
+	@column('Range') range!: number
+	@column('EffectRange') radius!: number
 
 	@column('Cast100ms') castTime!: number
 	@column('Recast100ms') recastTime!: number
@@ -47,6 +50,7 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 		id,
 	})
 
+	const headerMeta = data && getHeaderMeta(data)
 	const meta = data && getMeta(data)
 	const heroMeta = data && getHeroMeta(data)
 
@@ -56,6 +60,7 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 				title={data?.name ?? 'Loading'}
 				subtitle={data?.category}
 				icon={data?.icon && <Icon src={data.icon} />}
+				meta={headerMeta}
 			/>
 
 			{heroMeta && <HeroMeta items={heroMeta} />}
@@ -67,6 +72,11 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 	)
 }
 
+const getHeaderMeta = (data: ActionData) => [
+	{name: 'Range', value: data.range == -1 ? MELEE_RANGE : data.range},
+	{name: 'Radius', value: data.radius},
+]
+
 const getMeta = (data: ActionData) => [
 	{name: 'Acquired', value: `${data.learntBy} Lv. ${data.learntAt}`},
 	{name: 'Affinity', value: data.affinity},
@@ -74,7 +84,7 @@ const getMeta = (data: ActionData) => [
 
 function getHeroMeta(data: ActionData) {
 	// TODO: Work out how to localise this stuff
-	const stats: HeroMetaItem[] = [
+	const stats: MetaItem[] = [
 		{name: 'Cast', value: formatCastTime(data.castTime)},
 	]
 
