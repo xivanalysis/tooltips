@@ -1,10 +1,10 @@
-import React, {ReactElement, useContext} from 'react'
-import {Context} from '../context'
+import React, {ReactElement} from 'react'
 import {column} from '../data'
 import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
 import {HeroMeta, HeroMetaItem} from '../ui/heroMeta'
+import {Icon} from '../ui/icon'
 import {Meta} from '../ui/meta'
 import {BaseData} from './base'
 
@@ -41,7 +41,6 @@ export interface ActionContentProps {
 }
 
 export function ActionContent({id}: ActionContentProps): ReactElement {
-	const {baseUrl} = useContext(Context)
 	const data = useGameData({
 		sheet: 'Action',
 		columns: ActionData,
@@ -56,7 +55,7 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 			<Header
 				title={data?.name ?? 'Loading'}
 				subtitle={data?.category}
-				icon={data?.icon && baseUrl + data.icon}
+				icon={data?.icon && <Icon src={data.icon} />}
 			/>
 
 			{heroMeta && <HeroMeta items={heroMeta} />}

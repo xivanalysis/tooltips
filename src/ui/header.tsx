@@ -1,15 +1,15 @@
 import {styled} from '@compiled/css-in-js'
-import React, {ReactElement} from 'react'
+import React, {ReactElement, ReactNode} from 'react'
 
 interface HeaderProps {
-	title: string
-	subtitle?: string
-	icon?: string
+	title: ReactNode
+	subtitle?: ReactNode
+	icon?: ReactNode
 }
 
 export const Header = ({title, subtitle, icon}: HeaderProps): ReactElement => (
 	<HeaderWrapper>
-		<IconWrapper>{icon && <img src={icon} />}</IconWrapper>
+		<IconWrapper>{icon}</IconWrapper>
 		<TitleWrapper>
 			<Title>{title}</Title>
 			{subtitle && <SubTitle>{subtitle}</SubTitle>}

@@ -1,9 +1,9 @@
-import React, {ReactElement, useContext} from 'react'
-import {Context} from '../context'
+import React, {ReactElement} from 'react'
 import {column, Data} from '../data'
 import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
+import {Icon} from '../ui/icon'
 
 export class BaseData extends Data {
 	@column('Name') name!: string
@@ -17,7 +17,6 @@ export interface BaseContentProps {
 }
 
 export function BaseContent({sheet, id}: BaseContentProps): ReactElement {
-	const {baseUrl} = useContext(Context)
 	const data = useGameData({
 		sheet,
 		columns: BaseData,
@@ -28,7 +27,7 @@ export function BaseContent({sheet, id}: BaseContentProps): ReactElement {
 		<>
 			<Header
 				title={data?.name ?? 'Loading'}
-				icon={data?.icon && baseUrl + data.icon}
+				icon={data?.icon && <Icon src={data.icon} />}
 			/>
 			{data && <Description html={data.description} />}
 		</>
