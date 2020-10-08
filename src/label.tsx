@@ -32,21 +32,17 @@ export const Label = memo(function Label({
 	const name = data?.name ?? placeholderName ?? 'Loading'
 
 	return (
-		<Container>
+		<>
 			{data && <LabelIcon src={data.icon} />}
 			<Text>{name}</Text>
-		</Container>
+		</>
 	)
 })
 
-const Container = styled.span({
-	display: 'inline-flex',
-	alignItems: 'center',
-})
-
 const LabelIcon = styled(Icon)({
-	height: '1.2em',
 	marginRight: '0.2em',
+	height: '1.2em',
+	verticalAlign: 'middle',
 })
 
 const Text = styled.span({
