@@ -13,17 +13,17 @@ export function useGameData<T extends Data>({
 	id: number
 	language?: string
 }): T | undefined {
-	const {defaultLanguage, fetchGameData} = useContext(Context)
+	const {defaultLanguage, requestGameData} = useContext(Context)
 	const [data, setData] = useState<T>()
 
 	// Resolve language pre-effect so we don't retap effect if the final language doesn't change
 	const fetchLanguage = language ?? defaultLanguage
 
 	useEffect(() => {
-		fetchGameData({sheet, columns, id, language: fetchLanguage}).then(data =>
+		requestGameData([columns, fetchLanguage, sheet, id]).then(data =>
 			setData(data),
 		)
-	}, [fetchGameData, sheet, columns, id, fetchLanguage])
+	}, [requestGameData, sheet, columns, id, fetchLanguage])
 
 	return data
 }

@@ -5,16 +5,11 @@ import React, {
 	useMemo,
 	useRef,
 } from 'react'
-import {Context, ContextValue, FetchGameData} from './context'
-import {Data, DataConstructor} from './data'
+import {Context, ContextValue, DataRequest, RequestGameData} from './context'
+import {Data} from './data'
 import debounce from 'debounce'
 
 const DEFAULT_DEBOUNCE_DELAY = 50
-
-// [DataDefinition, Language, SheetName, ID]
-type DataRequest<T extends Data> = Readonly<
-	[DataConstructor<T>, string, string, number]
->
 
 interface DebounceResolution {
 	promise: Promise<void>
@@ -157,10 +152,8 @@ export function Provider({
 		[],
 	)
 
-	const fetchGameData = useCallback<FetchGameData>(
-		async ({sheet, columns: Columns, id, language}) => {
-			const request = [Columns, language, sheet, id] as const
-
+	const requestGameData = useCallback<RequestGameData>(
+		async request => {
 			// TODO: Check if data already has value and return early if so
 			const value = getCacheData(request)
 			if (value != null) {
@@ -193,9 +186,9 @@ export function Provider({
 		() => ({
 			baseUrl,
 			defaultLanguage: language,
-			fetchGameData,
+			requestGameData,
 		}),
-		[baseUrl, language, fetchGameData],
+		[baseUrl, language, requestGameData],
 	)
 
 	return <Context.Provider value={value}>{children}</Context.Provider>
