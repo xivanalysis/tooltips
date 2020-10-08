@@ -10,6 +10,7 @@ const getPlugins = isTSX => [
 		decoratorsBeforeExport: true,
 	}],
 	'@babel/plugin-proposal-class-properties',
+	'@babel/plugin-transform-runtime',
 ]
 
 module.exports = api => ({
