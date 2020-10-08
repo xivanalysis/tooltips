@@ -1,8 +1,8 @@
 import {styled} from '@compiled/css-in-js'
-import React, {memo, ReactElement, useContext} from 'react'
+import React, {memo, ReactElement} from 'react'
 import {useGameData} from './hooks'
 import {Data, column} from './data'
-import {Context} from './context'
+import {Icon} from './ui/icon'
 
 class LabelData extends Data {
 	@column('Name') name!: string
@@ -23,7 +23,6 @@ export const Label = memo(function Label({
 	id,
 	placeholderName,
 }: LabelProps): ReactElement {
-	const {baseUrl} = useContext(Context)
 	const data = useGameData({
 		sheet,
 		columns: LabelData,
@@ -34,7 +33,7 @@ export const Label = memo(function Label({
 
 	return (
 		<Container>
-			{data && <Icon src={baseUrl + data.icon} />}
+			{data && <LabelIcon src={data.icon} />}
 			<Text>{name}</Text>
 		</Container>
 	)
@@ -45,7 +44,7 @@ const Container = styled.span({
 	alignItems: 'center',
 })
 
-const Icon = styled.img({
+const LabelIcon = styled(Icon)({
 	height: '1.2em',
 	marginRight: '0.2em',
 })
