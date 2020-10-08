@@ -10,6 +10,7 @@ export interface DetailProps {
 	id: number
 }
 
+/** Component dispaying a detailed view of the specified game data. */
 export const Detail = memo(function Detail({
 	sheet,
 	id,

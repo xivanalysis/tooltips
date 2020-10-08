@@ -18,6 +18,7 @@ export interface LabelProps {
 	placeholderName?: string
 }
 
+/** Component displaying a simple label for the specified game data, with icon if available. */
 export const Label = memo(function Label({
 	sheet,
 	id,
