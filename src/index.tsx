@@ -1,17 +1,22 @@
-import {Provider, ProviderProps} from './provider'
-import {Label, LabelProps} from './label'
+import {Data, column} from './data'
 import {Detail, DetailProps} from './detail'
+import {useGameData} from './hooks'
+import {Label, LabelProps} from './label'
+import {Provider, ProviderProps} from './provider'
 import {Tooltip, TooltipProps} from './tooltip'
 
 export {
-	Provider as TooltipProvider,
-	Label as TooltipLabel,
+	column,
+	Data,
 	Detail as TooltipDetail,
+	Label as TooltipLabel,
+	Provider as TooltipProvider,
 	Tooltip,
+	useGameData,
 }
 export type {
-	ProviderProps as TooltipProviderProps,
-	LabelProps as TooltipLabelProps,
 	DetailProps as TooltipDetailProps,
+	LabelProps as TooltipLabelProps,
+	ProviderProps as TooltipProviderProps,
 	TooltipProps,
 }
