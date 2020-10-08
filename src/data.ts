@@ -27,7 +27,10 @@ export abstract class Data {
 	}
 }
 
-/** Mark a property as a column to hydrate from XIV data. */
+/**
+ * Mark a property as a column to hydrate from XIV data.
+ * @param column Game data column to hydrate this field from.
+ */
 export function column(column: string) {
 	return <T extends Data>(target: T, key: string): void => {
 		const ctor = target.constructor as typeof Data

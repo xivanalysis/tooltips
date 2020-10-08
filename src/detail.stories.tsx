@@ -8,12 +8,18 @@ export default {
 	title: 'Details',
 	component: DetailComponent,
 	args: {
+		providerLanguage: 'en',
 		sheet: 'Action',
 		id: 7505,
 	},
+	argTypes: {
+		providerLanguage: {
+			control: {type: 'select', options: ['ja', 'en', 'de', 'fr']},
+		},
+	},
 	decorators: [
-		Story => (
-			<Provider>
+		(Story, {args: {providerLanguage}}) => (
+			<Provider language={providerLanguage}>
 				<Story />
 			</Provider>
 		),

@@ -21,8 +21,10 @@ export interface ContextValue {
 	requestGameData: RequestGameData
 }
 
+// Main context used to communicate data between the root provider and
+// individual tooltip instances. It isn't sane to provide default logic,
+// so throwing if tooltips are used without a provider in the tree.
 const providerMissingError = new Error('No TooltipProvider found!')
-
 export const Context = createContext<ContextValue>({
 	get baseUrl(): string {
 		throw providerMissingError
