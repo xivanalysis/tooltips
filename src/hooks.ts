@@ -13,17 +13,20 @@ export function useGameData<T extends Data>({
 	id: number
 	language?: string
 }): T | undefined {
-	const {defaultLanguage, requestGameData} = useContext(Context)
-	const [data, setData] = useState<T>()
+	const {defaultLanguage, getCachedData, requestGameData} = useContext(Context)
+	const resolvedLanguage = language ?? defaultLanguage
 
-	// Resolve language pre-effect so we don't retap effect if the final language doesn't change
-	const fetchLanguage = language ?? defaultLanguage
+	// Initialise the state from the cache, if there's anything there
+	const [data, setData] = useState<T | undefined>(() =>
+		getCachedData([columns, resolvedLanguage, sheet, id]),
+	)
 
+	// Send out a request for updated data. This will hit cache if it's already available.
 	useEffect(() => {
-		requestGameData([columns, fetchLanguage, sheet, id]).then(data =>
+		requestGameData([columns, resolvedLanguage, sheet, id]).then(data =>
 			setData(data),
 		)
-	}, [requestGameData, sheet, columns, id, fetchLanguage])
+	}, [requestGameData, sheet, columns, id, resolvedLanguage])
 
 	return data
 }

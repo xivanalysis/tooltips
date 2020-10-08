@@ -5,7 +5,13 @@ import React, {
 	useMemo,
 	useRef,
 } from 'react'
-import {Context, ContextValue, DataRequest, RequestGameData} from './context'
+import {
+	Context,
+	ContextValue,
+	DataRequest,
+	GetCachedData,
+	RequestGameData,
+} from './context'
 import {Data} from './data'
 import debounce from 'debounce'
 
@@ -144,7 +150,7 @@ export function Provider({
 		[debounceDelay, baseUrl],
 	)
 
-	const getCacheData = useCallback(
+	const getCachedData = useCallback<GetCachedData>(
 		<T extends Data>([Columns, language, sheet, id]: DataRequest<T>) =>
 			data.current?.get(Columns)?.get(language)?.get(sheet)?.get(id) as
 				| T
@@ -154,8 +160,7 @@ export function Provider({
 
 	const requestGameData = useCallback<RequestGameData>(
 		async request => {
-			// TODO: Check if data already has value and return early if so
-			const value = getCacheData(request)
+			const value = getCachedData(request)
 			if (value != null) {
 				return value
 			}
@@ -177,18 +182,19 @@ export function Provider({
 			debouncedRequest()
 			await debounceResolution.current.promise
 
-			return getCacheData(request)
+			return getCachedData(request)
 		},
-		[getCacheData, debouncedRequest],
+		[getCachedData, debouncedRequest],
 	)
 
 	const value: ContextValue = useMemo(
 		() => ({
 			baseUrl,
 			defaultLanguage: language,
+			getCachedData,
 			requestGameData,
 		}),
-		[baseUrl, language, requestGameData],
+		[baseUrl, language, getCachedData, requestGameData],
 	)
 
 	return <Context.Provider value={value}>{children}</Context.Provider>
