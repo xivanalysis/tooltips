@@ -22,14 +22,13 @@ interface DebounceResolution {
 	resolve: () => void
 }
 
-// Prettier actually breaks the `...infer T` on these and causes them to fail
-// prettier-ignore
-type Pop<T extends readonly unknown[]> = T extends readonly [...infer K, unknown]
+type ROUnk = readonly unknown[]
+
+type Pop<T extends ROUnk> = T extends readonly [...infer K, unknown]
 	? Readonly<K>
 	: never
 
-// prettier-ignore
-type DataCache<T extends readonly unknown[], V> = T extends readonly [infer K, ...infer R]
+type DataCache<T extends ROUnk, V> = T extends readonly [infer K, ...infer R]
 	? Map<K, DataCache<R, V>>
 	: V
 
