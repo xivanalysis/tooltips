@@ -7,6 +7,13 @@
 	"homepage": "https://github.com/xivanalysis/tooltips#readme",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
+	"files": [
+		"lib",
+		"!lib/.tsbuildinfo"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"build": "concurrently --kill-others-on-fail --names compile,declare \"yarn compile\" \"yarn declare\"",
 		"clean": "rimraf lib",
