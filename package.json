@@ -1,17 +1,20 @@
 {
 	"name": "@xivanalysis/tooltips",
-	"version": "0.0.7",
+	"version": "0.1.0",
 	"description": "Tooltips for xivanalysis, using data from xivapi",
 	"license": "MIT",
 	"repository": "xivanalysis/tooltips",
 	"homepage": "https://github.com/xivanalysis/tooltips#readme",
+	"main": "lib/index.js",
+	"types": "lib/index.d.ts",
 	"scripts": {
 		"build": "concurrently --kill-others-on-fail --names compile,declare \"yarn compile\" \"yarn declare\"",
 		"clean": "rimraf lib",
 		"compile": "babel src -d lib -x .ts,.tsx",
 		"declare": "tsc",
 		"storybook": "NODE_ENV=storybook start-storybook -p 6006",
-		"storybook:build": "NODE_ENV=storybook build-storybook"
+		"storybook:build": "NODE_ENV=storybook build-storybook",
+		"prepublishOnly": "yarn clean && yarn build"
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.11.2",
