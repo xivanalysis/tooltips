@@ -8,16 +8,21 @@ export interface DetailProps {
 	sheet: string
 	/** ID of the row to retrieve data for. */
 	id: number
+
+	// TODO: This effectively needs to be drilled + consumed by every content
+	//       implementation. Look into deduplicating.
+	/**
+	 * Function called when the contents of the component have updated. Usedul
+	 * for recalculating tooltip locations if required, etc.
+	 */
+	onUpdate?: () => void
 }
 
 /** Component dispaying a detailed view of the specified game data. */
-export const Detail = memo(function Detail({
-	sheet,
-	id,
-}: DetailProps): ReactElement {
+export const Detail = memo(function Detail(props: DetailProps): ReactElement {
 	return (
 		<Container>
-			<Content sheet={sheet} id={id} />
+			<Content {...props} />
 			<Attribution
 				href="https://xivapi.com"
 				target="_blank"
@@ -29,12 +34,12 @@ export const Detail = memo(function Detail({
 	)
 })
 
-function Content({sheet, id}: DetailProps) {
+function Content({sheet, ...props}: DetailProps) {
 	switch (sheet.toLowerCase()) {
 		case 'action':
-			return <ActionContent id={id} />
+			return <ActionContent {...props} />
 		default:
-			return <BaseContent sheet={sheet} id={id} />
+			return <BaseContent sheet={sheet} {...props} />
 	}
 }
 

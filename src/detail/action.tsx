@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react'
+import React, {ReactElement, useEffect} from 'react'
 import {column} from '../data'
 import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
@@ -6,6 +6,7 @@ import {Header} from '../ui/header'
 import {HeroMeta} from '../ui/heroMeta'
 import {Meta, MetaItem} from '../ui/meta'
 import {BaseData} from './base'
+import {DetailProps} from './detail'
 
 const CAST_TIME_FACTOR = 0.1
 const MANA_COST_FACTOR = 100
@@ -38,16 +39,20 @@ class ActionData extends BaseData {
 	@column('ClassJobCategory.Name') affinity!: string
 }
 
-export interface ActionContentProps {
-	id: number
-}
+export type ActionContentProps = Omit<DetailProps, 'sheet'>
 
-export function ActionContent({id}: ActionContentProps): ReactElement {
+export function ActionContent({
+	id,
+	onUpdate,
+}: ActionContentProps): ReactElement {
 	const data = useGameData({
 		sheet: 'Action',
 		columns: ActionData,
 		id,
 	})
+
+	// Each time data is modified, trip update effect
+	useEffect(() => onUpdate?.(), [onUpdate, data])
 
 	const headerMeta = data && getHeaderMeta(data)
 	const meta = data && getMeta(data)
