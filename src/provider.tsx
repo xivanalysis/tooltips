@@ -134,7 +134,7 @@ export function Provider({
 							// Save the fetched data into the data cache
 							for (const result of Results) {
 								const data = new Data()
-								data.hydrate(result)
+								data.hydrate(result, {baseUrl})
 								cache.set(result.ID, data)
 							}
 						})

@@ -3,11 +3,10 @@ import {column, Data} from '../data'
 import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
-import {Icon} from '../ui/icon'
 
 export class BaseData extends Data {
 	@column('Name') name!: string
-	@column('Icon') icon!: string
+	@column('Icon', {type: 'url'}) icon!: string
 	@column('Description') description!: string
 }
 
@@ -27,7 +26,7 @@ export function BaseContent({sheet, id}: BaseContentProps): ReactElement {
 		<>
 			<Header
 				title={data?.name ?? 'Loading'}
-				icon={data?.icon && <Icon src={data.icon} />}
+				icon={data?.icon && <img src={data.icon} />}
 			/>
 			{data && <Description html={data.description} />}
 		</>

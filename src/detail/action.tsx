@@ -4,7 +4,6 @@ import {useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
 import {HeroMeta} from '../ui/heroMeta'
-import {Icon} from '../ui/icon'
 import {Meta, MetaItem} from '../ui/meta'
 import {BaseData} from './base'
 
@@ -59,7 +58,7 @@ export function ActionContent({id}: ActionContentProps): ReactElement {
 			<Header
 				title={data?.name ?? 'Loading'}
 				subtitle={data?.category}
-				icon={data?.icon && <Icon src={data.icon} />}
+				icon={data?.icon && <img src={data.icon} />}
 				meta={headerMeta}
 			/>
 

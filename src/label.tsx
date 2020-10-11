@@ -2,11 +2,10 @@ import {styled} from '@compiled/css-in-js'
 import React, {memo, ReactElement} from 'react'
 import {useGameData} from './hooks'
 import {Data, column} from './data'
-import {Icon} from './ui/icon'
 
 class LabelData extends Data {
 	@column('Name') name!: string
-	@column('Icon') icon!: string
+	@column('Icon', {type: 'url'}) icon!: string
 }
 
 export interface LabelProps {
@@ -40,7 +39,7 @@ export const Label = memo(function Label({
 	)
 })
 
-const LabelIcon = styled(Icon)({
+const LabelIcon = styled.img({
 	marginRight: '0.2em',
 	height: '1.2em',
 	verticalAlign: 'middle',
