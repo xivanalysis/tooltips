@@ -7,9 +7,12 @@ const getPlugins = isTSX => [
 		allowDeclareFields: true,
 	}],
 	['@babel/plugin-proposal-decorators', {
-		decoratorsBeforeExport: true,
+		// decoratorsBeforeExport: true,
+		legacy: true,
 	}],
-	'@babel/plugin-proposal-class-properties',
+	['@babel/plugin-proposal-class-properties', {
+		loose: true,
+	}],
 	'@babel/plugin-transform-runtime',
 ]
 
