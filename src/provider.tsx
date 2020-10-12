@@ -53,6 +53,10 @@ function getWithDefault<M extends Map<unknown, unknown>>(
 	return value
 }
 
+type CacheValue<T extends Data> =
+	| {status: 'pending'; promise: Promise<void>}
+	| {status: 'fulfilled'; data: T}
+
 export interface ProviderProps {
 	// TODO: Maybe allow overriding the entire fetch process so someone could use e.g. kobold?
 	/** Base FFXIV API URL. Defaults to `https://xivapi.com` - any alternatives should match its schema. */
@@ -75,8 +79,9 @@ export function Provider({
 }: ProviderProps): ReactElement {
 	const requestQueue = useRef<DataRequest<Data>[]>([])
 	const debounceResolution = useRef<DebounceResolution>()
-	const data = useRef<DataCache<DataRequest<Data>, Data>>()
+	const data = useRef<DataCache<DataRequest<Data>, CacheValue<Data>>>()
 
+	// Main request handler that hits the API. Debounced to prevent flooding requests.
 	const debouncedRequest = useMemo(
 		() =>
 			debounce(() => {
@@ -91,7 +96,7 @@ export function Provider({
 				// Build groups for requests to the same resource
 				// I'm keying by the value in the cache as it'll be a stable reference
 				const requestGroups = new Map<
-					Map<number, Data>,
+					Map<number, CacheValue<Data>>,
 					{request: Pop<DataRequest<Data>>; ids: Set<number>}
 				>()
 				for (const [Constructor, language, sheet, id] of currentQueue) {
@@ -135,10 +140,11 @@ export function Provider({
 							for (const result of Results) {
 								const data = new Data()
 								data.hydrate(result, {baseUrl})
-								cache.set(result.ID, data)
+								cache.set(result.ID, {status: 'fulfilled', data})
 							}
 						})
 					promises.push(promise)
+					ids.forEach(id => cache.set(id, {status: 'pending', promise}))
 				}
 
 				// Once all the promises are resolved, resolve the debounce promise to signal the data is ready
@@ -149,19 +155,41 @@ export function Provider({
 		[debounceDelay, baseUrl],
 	)
 
-	const getCachedData = useCallback<GetCachedData>(
-		<T extends Data>([Columns, language, sheet, id]: DataRequest<T>) =>
+	// Cache value lookup
+	const getCacheValue = useCallback(
+		<T extends Data>([Columns, language, sheet, id]: DataRequest<T>):
+			| CacheValue<T>
+			| undefined =>
 			data.current?.get(Columns)?.get(language)?.get(sheet)?.get(id) as
-				| T
+				| CacheValue<T>
 				| undefined,
 		[],
 	)
 
+	// Convenience wrapper arouund the cache values to hide the promise structure from consumers
+	const getCachedData = useCallback<GetCachedData>(
+		<T extends Data>(request: DataRequest<T>) => {
+			const cacheValue = getCacheValue(request)
+
+			return cacheValue?.status === 'fulfilled'
+				? (cacheValue.data as T)
+				: undefined
+		},
+		[getCacheValue],
+	)
+
+	// Initiate a request for game data
 	const requestGameData = useCallback<RequestGameData>(
 		async request => {
-			const value = getCachedData(request)
-			if (value != null) {
-				return value
+			// Check the cache to see if we need to do a request at all. It may have
+			// already been fulfilled, or already be pending on network.
+			const value = getCacheValue(request)
+			if (value?.status === 'fulfilled') {
+				return value.data
+			}
+			if (value?.status === 'pending') {
+				await value.promise
+				return getCachedData(request)
 			}
 
 			// If there's no current debounce, set one up
@@ -183,7 +211,7 @@ export function Provider({
 
 			return getCachedData(request)
 		},
-		[getCachedData, debouncedRequest],
+		[getCachedData, getCacheValue, debouncedRequest],
 	)
 
 	const value: ContextValue = useMemo(
