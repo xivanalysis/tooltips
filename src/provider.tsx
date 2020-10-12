@@ -13,14 +13,9 @@ import {
 	RequestGameData,
 } from './context'
 import {Data} from './data'
-import debounce from 'debounce'
+import {useAsyncDebounce} from './debounce'
 
 const DEFAULT_DEBOUNCE_DELAY = 50
-
-interface DebounceResolution {
-	promise: Promise<void>
-	resolve: () => void
-}
 
 type ROUnk = readonly unknown[]
 
@@ -78,82 +73,73 @@ export function Provider({
 	children,
 }: ProviderProps): ReactElement {
 	const requestQueue = useRef<DataRequest<Data>[]>([])
-	const debounceResolution = useRef<DebounceResolution>()
 	const data = useRef<DataCache<DataRequest<Data>, CacheValue<Data>>>()
 
 	// Main request handler that hits the API. Debounced to prevent flooding requests.
-	const debouncedRequest = useMemo(
-		() =>
-			debounce(() => {
-				// Grab references to the values we'll be processing this
-				// execution, and clear out for the next consumer
-				const currentQueue = requestQueue.current
-				requestQueue.current = []
+	const initiateRequests = useCallback(() => {
+		// Grab references to the values we'll be processing this
+		// execution, and clear out for the next consumer
+		const currentQueue = requestQueue.current
+		requestQueue.current = []
 
-				const resolution = debounceResolution.current
-				debounceResolution.current = undefined
+		// Build groups for requests to the same resource
+		// I'm keying by the value in the cache as it'll be a stable reference
+		const requestGroups = new Map<
+			Map<number, CacheValue<Data>>,
+			{request: Pop<DataRequest<Data>>; ids: Set<number>}
+		>()
+		for (const [Constructor, language, sheet, id] of currentQueue) {
+			// Drill down to the pending IDs
+			if (data.current == null) {
+				data.current = new Map()
+			}
+			const languageCache = getWithDefault(
+				data.current,
+				Constructor,
+				() => new Map(),
+			)
+			const sheetCache = getWithDefault(
+				languageCache,
+				language,
+				() => new Map(),
+			)
+			const idCache = getWithDefault(sheetCache, sheet, () => new Map())
 
-				// Build groups for requests to the same resource
-				// I'm keying by the value in the cache as it'll be a stable reference
-				const requestGroups = new Map<
-					Map<number, CacheValue<Data>>,
-					{request: Pop<DataRequest<Data>>; ids: Set<number>}
-				>()
-				for (const [Constructor, language, sheet, id] of currentQueue) {
-					// Drill down to the pending IDs
-					if (data.current == null) {
-						data.current = new Map()
+			// Make sure we have a set and add it
+			const group = getWithDefault(requestGroups, idCache, () => ({
+				request: [Constructor, language, sheet] as const,
+				ids: new Set<number>(),
+			}))
+			group.ids.add(id)
+		}
+
+		// Fetch the final data for the requests
+		const promises: Promise<void>[] = []
+		for (const [cache, {request, ids}] of requestGroups.entries()) {
+			const [Data, language, sheet] = request
+			const columns = [...Object.keys(Data.columns ?? {}), 'ID'].join(',')
+			const idsStr = [...ids.values()].join(',')
+			const promise = fetch(
+				`${baseUrl}/${sheet}?ids=${idsStr}&columns=${columns}&language=${language}`,
+			)
+				.then(resp => resp.json())
+				.then(({Results}) => {
+					// TODO: Handle pagination?
+					// Save the fetched data into the data cache
+					for (const result of Results) {
+						const data = new Data()
+						data.hydrate(result, {baseUrl})
+						cache.set(result.ID, {status: 'fulfilled', data})
 					}
-					const languageCache = getWithDefault(
-						data.current,
-						Constructor,
-						() => new Map(),
-					)
-					const sheetCache = getWithDefault(
-						languageCache,
-						language,
-						() => new Map(),
-					)
-					const idCache = getWithDefault(sheetCache, sheet, () => new Map())
-
-					// Make sure we have a set and add it
-					const group = getWithDefault(requestGroups, idCache, () => ({
-						request: [Constructor, language, sheet] as const,
-						ids: new Set<number>(),
-					}))
-					group.ids.add(id)
-				}
-
-				// Fetch the final data for the requests
-				const promises: Promise<void>[] = []
-				for (const [cache, {request, ids}] of requestGroups.entries()) {
-					const [Data, language, sheet] = request
-					const columns = [...Object.keys(Data.columns ?? {}), 'ID'].join(',')
-					const idsStr = [...ids.values()].join(',')
-					const promise = fetch(
-						`${baseUrl}/${sheet}?ids=${idsStr}&columns=${columns}&language=${language}`,
-					)
-						.then(resp => resp.json())
-						.then(({Results}) => {
-							// TODO: Handle pagination?
-							// Save the fetched data into the data cache
-							for (const result of Results) {
-								const data = new Data()
-								data.hydrate(result, {baseUrl})
-								cache.set(result.ID, {status: 'fulfilled', data})
-							}
-						})
-					promises.push(promise)
-					ids.forEach(id => cache.set(id, {status: 'pending', promise}))
-				}
-
-				// Once all the promises are resolved, resolve the debounce promise to signal the data is ready
-				Promise.all(promises).then(() => {
-					resolution?.resolve()
 				})
-			}, debounceDelay),
-		[debounceDelay, baseUrl],
-	)
+			promises.push(promise)
+			ids.forEach(id => cache.set(id, {status: 'pending', promise}))
+		}
+
+		return Promise.all(promises)
+	}, [baseUrl])
+
+	const debouncedRequest = useAsyncDebounce(initiateRequests, debounceDelay)
 
 	// Cache value lookup
 	const getCacheValue = useCallback(
@@ -192,22 +178,9 @@ export function Provider({
 				return getCachedData(request)
 			}
 
-			// If there's no current debounce, set one up
-			if (debounceResolution.current == null) {
-				let resolve!: () => void
-				const promise = new Promise<void>(internalResolve => {
-					resolve = internalResolve
-				})
-				debounceResolution.current = {
-					promise,
-					resolve,
-				}
-			}
-
 			// Push our request into the queue and wait for the request to resolve
 			requestQueue.current.push(request)
-			debouncedRequest()
-			await debounceResolution.current.promise
+			await debouncedRequest()
 
 			return getCachedData(request)
 		},
