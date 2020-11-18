@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect} from 'react'
 import {column} from '../data'
-import {useGameData} from '../hooks'
+import {AddonStrings, useAddonStrings, useGameData} from '../hooks'
 import {Description} from '../ui/description'
 import {Header} from '../ui/header'
 import {HeroMeta} from '../ui/heroMeta'
@@ -18,10 +18,26 @@ enum CostType {
 	GP = 7,
 }
 
-const costTypeName: Record<CostType, string> = {
-	[CostType.MP]: 'MP',
-	[CostType.GP]: 'GP',
+const addonIds = {
+	instant: {id: 699, default: 'Instant'},
+	cast: {id: 701, default: 'Cast'},
+	recast: {id: 702, default: 'Recast'},
+	mpCost: {id: 705, default: 'MP Cost'},
+	gpCost: {id: 708, default: 'GP Cost'},
+	range: {id: 709, default: 'Range'},
+	radius: {id: 710, default: 'Radius'},
+	acquired: {id: 711, default: 'Acquired'},
+	affinity: {id: 712, default: 'Affinity'},
 }
+
+type StringKey = keyof typeof addonIds
+
+const costTypeName: Record<CostType, StringKey> = {
+	[CostType.MP]: 'mpCost',
+	[CostType.GP]: 'gpCost',
+}
+
+type ActionAddonStrings = AddonStrings<keyof typeof addonIds>
 
 class ActionData extends BaseData {
 	@column('ActionCategory.Name') category?: string
@@ -54,9 +70,11 @@ export function ActionContent({
 	// Each time data is modified, trip update effect
 	useEffect(() => onUpdate?.(), [onUpdate, data])
 
-	const headerMeta = data && getHeaderMeta(data)
-	const meta = data && getMeta(data)
-	const heroMeta = data && getHeroMeta(data)
+	const strings = useAddonStrings({ids: addonIds})
+
+	const headerMeta = data && getHeaderMeta(data, strings)
+	const meta = data && getMeta(data, strings)
+	const heroMeta = data && getHeroMeta(data, strings)
 
 	return (
 		<>
@@ -66,37 +84,34 @@ export function ActionContent({
 				icon={data?.icon && <img src={data.icon} />}
 				meta={headerMeta}
 			/>
-
 			{heroMeta && <HeroMeta items={heroMeta} />}
-
 			{data && <Description html={data.description} />}
-
 			{meta && <Meta items={meta} />}
 		</>
 	)
 }
 
-const getHeaderMeta = (data: ActionData) => [
-	{name: 'Range', value: data.range == -1 ? MELEE_RANGE : data.range},
-	{name: 'Radius', value: data.radius},
+const getHeaderMeta = (data: ActionData, strings: ActionAddonStrings) => [
+	{name: strings.range, value: data.range == -1 ? MELEE_RANGE : data.range},
+	{name: strings.radius, value: data.radius},
 ]
 
-const getMeta = (data: ActionData) => [
-	{name: 'Acquired', value: `${data.learntBy} Lv. ${data.learntAt}`},
-	{name: 'Affinity', value: data.affinity},
+const getMeta = (data: ActionData, strings: ActionAddonStrings) => [
+	{name: strings.acquired, value: `${data.learntBy} Lv. ${data.learntAt}`},
+	{name: strings.affinity, value: data.affinity},
 ]
 
-function getHeroMeta(data: ActionData) {
+function getHeroMeta(data: ActionData, strings: ActionAddonStrings) {
 	// TODO: Work out how to localise this stuff
 	const stats: MetaItem[] = [
-		{name: 'Cast', value: formatCastTime(data.castTime)},
+		{name: strings.cast, value: formatCastTime(data.castTime, strings)},
 	]
 
 	// Don't display recast if it's 0
 	if (data.recastTime > 0) {
 		stats.push({
-			name: 'Recast',
-			value: formatCastTime(data.recastTime),
+			name: strings.recast,
+			value: formatCastTime(data.recastTime, strings),
 		})
 	}
 
@@ -108,7 +123,7 @@ function getHeroMeta(data: ActionData) {
 			data.costType === CostType.MP ? data.cost * MANA_COST_FACTOR : data.cost
 
 		stats.push({
-			name: costTypeName[data.costType] + ' Cost',
+			name: strings[costTypeName[data.costType]],
 			value,
 		})
 	}
@@ -116,5 +131,5 @@ function getHeroMeta(data: ActionData) {
 	return stats
 }
 
-const formatCastTime = (time: number) =>
-	time == 0 ? 'Instant' : (time * CAST_TIME_FACTOR).toFixed(2) + 's'
+const formatCastTime = (time: number, strings: ActionAddonStrings) =>
+	time == 0 ? strings.instant : (time * CAST_TIME_FACTOR).toFixed(2) + 's'

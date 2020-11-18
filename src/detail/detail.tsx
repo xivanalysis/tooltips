@@ -12,7 +12,7 @@ export interface DetailProps {
 	// TODO: This effectively needs to be drilled + consumed by every content
 	//       implementation. Look into deduplicating.
 	/**
-	 * Function called when the contents of the component have updated. Usedul
+	 * Function called when the contents of the component have updated. Useful
 	 * for recalculating tooltip locations if required, etc.
 	 */
 	onUpdate?: () => void
