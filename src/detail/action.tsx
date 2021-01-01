@@ -85,7 +85,7 @@ export function ActionContent({
 				meta={headerMeta}
 			/>
 			{heroMeta && <HeroMeta items={heroMeta} />}
-			{data && <Description html={data.description} />}
+			{data?.description && <Description html={data.description} />}
 			{meta && <Meta items={meta} />}
 		</>
 	)
@@ -102,7 +102,6 @@ const getMeta = (data: ActionData, strings: ActionAddonStrings) => [
 ]
 
 function getHeroMeta(data: ActionData, strings: ActionAddonStrings) {
-	// TODO: Work out how to localise this stuff
 	const stats: MetaItem[] = [
 		{name: strings.cast, value: formatCastTime(data.castTime, strings)},
 	]
