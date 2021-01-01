@@ -1,5 +1,6 @@
 import {styled} from '@compiled/css-in-js'
 import React, {memo, ReactElement} from 'react'
+import {ErrorBoundary} from '../errorBoundary'
 import {ActionContent} from './action'
 import {BaseContent} from './base'
 
@@ -22,7 +23,9 @@ export interface DetailProps {
 export const Detail = memo(function Detail(props: DetailProps): ReactElement {
 	return (
 		<Container>
-			<Content {...props} />
+			<ErrorBoundary>
+				<Content {...props} />
+			</ErrorBoundary>
 			<Attribution
 				href="https://xivapi.com"
 				target="_blank"

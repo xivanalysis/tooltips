@@ -2,6 +2,7 @@ import {styled} from '@compiled/css-in-js'
 import React, {memo, ReactElement} from 'react'
 import {useGameData} from './hooks'
 import {Data, column} from './data'
+import {ErrorBoundary} from './errorBoundary'
 
 class LabelData extends Data {
 	@column('Name') name!: string
@@ -18,7 +19,13 @@ export interface LabelProps {
 }
 
 /** Component displaying a simple label for the specified game data, with icon if available. */
-export const Label = memo(function Label({
+export const Label = (props: LabelProps): ReactElement => (
+	<ErrorBoundary>
+		<LabelImplementation {...props} />
+	</ErrorBoundary>
+)
+
+const LabelImplementation = memo(function Label({
 	sheet,
 	id,
 	placeholderName,
