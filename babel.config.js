@@ -1,7 +1,7 @@
 /* global module */
 
 const getPlugins = isTSX => [
-	'@compiled/babel-plugin-css-in-js',
+	'@compiled/babel-plugin',
 	['@babel/plugin-transform-typescript', {
 		isTSX,
 		allowDeclareFields: true,

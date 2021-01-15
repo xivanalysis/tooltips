@@ -25,7 +25,7 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.11.2",
-		"@compiled/css-in-js": "^0.4.7"
+		"@compiled/react": "^0.6.0"
 	},
 	"peerDependencies": {
 		"react": "^16.13.1",
@@ -40,7 +40,7 @@
 		"@babel/plugin-transform-typescript": "^7.11.0",
 		"@babel/preset-env": "^7.11.5",
 		"@babel/preset-react": "^7.10.4",
-		"@compiled/babel-plugin-css-in-js": "^0.4.7",
+		"@compiled/babel-plugin": "^0.6.0",
 		"@storybook/addon-actions": "^6.0.22",
 		"@storybook/addon-essentials": "^6.0.22",
 		"@storybook/addon-links": "^6.0.22",

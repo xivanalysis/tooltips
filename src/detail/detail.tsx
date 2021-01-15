@@ -1,4 +1,4 @@
-import {styled} from '@compiled/css-in-js'
+import {styled} from '@compiled/react'
 import React, {memo, ReactElement} from 'react'
 import {ErrorBoundary} from '../errorBoundary'
 import {ActionContent} from './action'

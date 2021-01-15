@@ -1,4 +1,4 @@
-import {styled} from '@compiled/css-in-js'
+import {styled} from '@compiled/react'
 import React, {memo, ReactElement} from 'react'
 import {useGameData} from './hooks'
 import {Data, column} from './data'
