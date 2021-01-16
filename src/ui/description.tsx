@@ -1,4 +1,4 @@
-import '@compiled/css-in-js'
+import '@compiled/react'
 import React, {ReactElement} from 'react'
 
 export interface DescriptionProps {

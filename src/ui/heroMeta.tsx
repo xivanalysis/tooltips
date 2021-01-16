@@ -1,4 +1,4 @@
-import {styled} from '@compiled/css-in-js'
+import {styled} from '@compiled/react'
 import React, {ReactElement} from 'react'
 import {MetaItem} from './meta'
 

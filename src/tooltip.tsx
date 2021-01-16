@@ -1,4 +1,4 @@
-import {styled} from '@compiled/css-in-js'
+import {styled} from '@compiled/react'
 import React, {memo, ReactElement, useState} from 'react'
 import {Detail} from './detail'
 import {Label} from './label'
