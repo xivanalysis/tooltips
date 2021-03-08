@@ -120,7 +120,7 @@ export function Provider({
 			const columns = [...Object.keys(Data.columns ?? {}), 'ID'].join(',')
 			const idsStr = [...ids.values()].join(',')
 			const promise = fetch(
-				`${baseUrl}/${sheet}?ids=${idsStr}&columns=${columns}&language=${language}`,
+				`${baseUrl}/${sheet}?ids=${idsStr}&limit=${ids.size}&columns=${columns}&language=${language}`,
 			)
 				.then(resp => resp.json())
 				.then(({Results}) => {

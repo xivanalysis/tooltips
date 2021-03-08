@@ -31,3 +31,11 @@ export const MultipleLabels = (): ReactElement => (
 		<LabelComponent sheet="Status" id={2} />
 	</>
 )
+
+export const StressTest = (): ReactElement => (
+	<>
+		{[...Array(200)].map((_, index) => (
+			<LabelComponent key={index} sheet="Action" id={index} />
+		))}
+	</>
+)
