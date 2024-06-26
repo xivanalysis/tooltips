@@ -7,8 +7,9 @@ import {DetailProps} from './detail'
 
 export class BaseData extends Data {
 	@column('Name') name!: string
-	@column('Icon', {type: 'url'}) icon!: string
-	@column('Description') description!: string
+	@column('Icon', {type: 'icon'}) icon!: string
+	// @column('Description') description!: string
+	description = 'TODO: ActionIndirection'
 }
 
 export function BaseContent({sheet, id, onUpdate}: DetailProps): ReactElement {

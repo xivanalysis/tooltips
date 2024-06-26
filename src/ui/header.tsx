@@ -49,6 +49,10 @@ const IconWrapper = styled.div({
 	flex: '0 0 60px',
 	height: 60,
 	backgroundColor: '#111',
+
+	'> img': {
+		maxHeight: 40,
+	},
 })
 
 const TitleWrapper = styled.div({

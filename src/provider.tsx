@@ -12,7 +12,7 @@ import {
 	GetCachedData,
 	RequestGameData,
 } from './context'
-import {Data} from './data'
+import {BoilmasterSheetResponse, Data} from './data'
 import {useAsyncDebounce} from './debounce'
 
 const DEFAULT_DEBOUNCE_DELAY = 50
@@ -54,7 +54,7 @@ type CacheValue<T extends Data> =
 
 export interface ProviderProps {
 	// TODO: Maybe allow overriding the entire fetch process so someone could use e.g. kobold?
-	/** Base FFXIV API URL. Defaults to `https://xivapi.com` - any alternatives should match its schema. */
+	/** Base FFXIV API URL. Defaults to `https://beta.xivapi.com/api/1` - any alternatives should match its schema. */
 	baseUrl?: string
 	/**
 	 * Language to render tooltips in. Defaults to `en`. Accepts any values permitted on
@@ -67,7 +67,7 @@ export interface ProviderProps {
 }
 
 export function Provider({
-	baseUrl = 'https://xivapi.com',
+	baseUrl = 'https://beta.xivapi.com/api/1',
 	language = 'en',
 	debounceDelay = DEFAULT_DEBOUNCE_DELAY,
 	children,
@@ -117,19 +117,19 @@ export function Provider({
 		const promises: Promise<void>[] = []
 		for (const [cache, {request, ids}] of requestGroups.entries()) {
 			const [Data, language, sheet] = request
-			const columns = [...Object.keys(Data.columns ?? {}), 'ID'].join(',')
+			const columns = [...Object.keys(Data.columns ?? {})].join(',')
 			const idsStr = [...ids.values()].join(',')
 			const promise = fetch(
-				`${baseUrl}/${sheet}?ids=${idsStr}&limit=${ids.size}&columns=${columns}&language=${language}`,
+				`${baseUrl}/sheet/${sheet}?rows=${idsStr}&limit=${ids.size}&fields=${columns}&language=${language}`,
 			)
 				.then(resp => resp.json())
-				.then(({Results}) => {
+				.then(({rows}: BoilmasterSheetResponse) => {
 					// TODO: Handle pagination?
 					// Save the fetched data into the data cache
-					for (const result of Results) {
+					for (const row of rows) {
 						const data = new Data()
-						data.hydrate(result, {baseUrl})
-						cache.set(result.ID, {status: 'fulfilled', data})
+						data.hydrate(row, {baseUrl})
+						cache.set(row.row_id, {status: 'fulfilled', data})
 					}
 				})
 			promises.push(promise)
