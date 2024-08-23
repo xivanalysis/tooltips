@@ -1,8 +1,11 @@
-export type ColumnType = 'icon'
+export type ColumnType = 'scalar' | 'icon'
+
+export type ColumnSource = 'fields' | 'transient'
 
 export interface ColumnOptions {
 	property: string
-	type?: ColumnType
+	type: ColumnType
+	source: ColumnSource
 }
 
 export interface DataConstructor<T extends Data> {
@@ -18,6 +21,7 @@ export interface BoilmasterSheetResponse {
 export interface BoilmasterRow {
 	row_id: number
 	fields: Record<string, unknown>
+	transient?: Record<string, unknown>
 }
 
 export interface BoilmasterIcon {
@@ -43,9 +47,9 @@ export abstract class Data {
 		const ctor = this.constructor as typeof Data
 		const columns = Object.entries(ctor.columns ?? {})
 
-		for (const [column, {property, type}] of columns) {
+		for (const [column, {property, type, source}] of columns) {
 			const path = column.split('.')
-			let value = data.fields
+			let value = data[source] ?? {}
 			for (const key of path) {
 				let inner = value[key] as Record<string, unknown>
 				if (Object.hasOwn(inner, 'fields')) {
@@ -81,13 +85,18 @@ function handleColumnType(
  */
 export function column(
 	column: string,
-	options?: Omit<ColumnOptions, 'property'>,
+	options?: Partial<Omit<ColumnOptions, 'property'>>,
 ) {
 	return <T extends Data>(target: T, property: string): void => {
 		const ctor = target.constructor as typeof Data
 		ctor.columns = {
 			...ctor.columns,
-			[column]: {...options, property},
+			[column]: {
+				type: 'scalar',
+				source: 'fields',
+				...options,
+				property,
+			},
 		}
 	}
 }

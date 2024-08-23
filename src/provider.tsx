@@ -117,10 +117,20 @@ export function Provider({
 		const promises: Promise<void>[] = []
 		for (const [cache, {request, ids}] of requestGroups.entries()) {
 			const [Data, language, sheet] = request
-			const columns = [...Object.keys(Data.columns ?? {})].join(',')
+
+			const columns = Object.entries(Data.columns ?? {})
+			const fields = columns
+				.filter(([, options]) => options.source === 'fields')
+				.map(([name]) => name)
+				.join(',')
+			const transient = columns
+				.filter(([, options]) => options.source === 'transient')
+				.map(([name]) => name)
+				.join(',')
+
 			const idsStr = [...ids.values()].join(',')
 			const promise = fetch(
-				`${baseUrl}/sheet/${sheet}?rows=${idsStr}&limit=${ids.size}&fields=${columns}&language=${language}`,
+				`${baseUrl}/sheet/${sheet}?rows=${idsStr}&limit=${ids.size}&fields=${fields}&transient=${transient}&language=${language}`,
 			)
 				.then(resp => resp.json())
 				.then(({rows}: BoilmasterSheetResponse) => {
