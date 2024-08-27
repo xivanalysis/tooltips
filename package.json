@@ -1,9 +1,12 @@
 {
 	"name": "@xivanalysis/tooltips",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"description": "Tooltips for xivanalysis, using data from xivapi",
 	"license": "MIT",
-	"repository": "xivanalysis/tooltips",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/xivanalysis/tooltips.git"
+	},
 	"homepage": "https://github.com/xivanalysis/tooltips#readme",
 	"main": "lib/index.js",
 	"types": "lib/index.d.ts",
