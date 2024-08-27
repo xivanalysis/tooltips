@@ -121,11 +121,11 @@ export function Provider({
 			const columns = Object.entries(Data.columns ?? {})
 			const fields = columns
 				.filter(([, options]) => options.source === 'fields')
-				.map(([name]) => name)
+				.map(([, options]) => options.column)
 				.join(',')
 			const transient = columns
 				.filter(([, options]) => options.source === 'transient')
-				.map(([name]) => name)
+				.map(([, options]) => options.column)
 				.join(',')
 
 			const idsStr = [...ids.values()].join(',')

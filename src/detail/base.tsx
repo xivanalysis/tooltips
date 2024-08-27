@@ -8,7 +8,16 @@ import {DetailProps} from './detail'
 export class BaseData extends Data {
 	@column('Name') name!: string
 	@column('Icon', {type: 'icon'}) icon!: string
-	@column('Description@as(html)', {source: 'transient'}) description!: string
+
+	@column('Description@as(html)') private descriptionField?: string
+	@column('Description@as(html)', {source: 'transient'})
+	private descriptionTransient?: string
+
+	get description(): string {
+		return (
+			this?.descriptionTransient ?? this?.descriptionField ?? '(no description)'
+		)
+	}
 }
 
 export function BaseContent({sheet, id, onUpdate}: DetailProps): ReactElement {

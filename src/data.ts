@@ -3,7 +3,7 @@ export type ColumnType = 'scalar' | 'icon'
 export type ColumnSource = 'fields' | 'transient'
 
 export interface ColumnOptions {
-	property: string
+	column: string
 	type: ColumnType
 	source: ColumnSource
 }
@@ -47,11 +47,16 @@ export abstract class Data {
 		const ctor = this.constructor as typeof Data
 		const columns = Object.entries(ctor.columns ?? {})
 
-		for (const [column, {property, type, source}] of columns) {
+		for (const [property, {column, type, source}] of columns) {
 			const path = column.split('.')
-			let value = data[source] ?? {}
+			let value: Record<string, unknown> | undefined = data[source] ?? {}
 			for (const key of path) {
 				let inner = value[key] as Record<string, unknown>
+				if (inner == null) {
+					value = undefined
+					break
+				}
+
 				if (Object.hasOwn(inner, 'fields')) {
 					inner = inner.fields as Record<string, unknown>
 				}
@@ -91,11 +96,11 @@ export function column(
 		const ctor = target.constructor as typeof Data
 		ctor.columns = {
 			...ctor.columns,
-			[column]: {
+			[property]: {
 				type: 'scalar',
 				source: 'fields',
 				...options,
-				property,
+				column,
 			},
 		}
 	}
