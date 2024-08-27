@@ -1,13 +1,33 @@
-export type ColumnType = 'url'
+export type ColumnType = 'scalar' | 'icon'
+
+export type ColumnSource = 'fields' | 'transient'
 
 export interface ColumnOptions {
 	property: string
-	type?: ColumnType
+	type: ColumnType
+	source: ColumnSource
 }
 
 export interface DataConstructor<T extends Data> {
 	new (): T
 	columns?: Record<string, ColumnOptions>
+}
+
+export interface BoilmasterSheetResponse {
+	schema: string
+	rows: BoilmasterRow[]
+}
+
+export interface BoilmasterRow {
+	row_id: number
+	fields: Record<string, unknown>
+	transient?: Record<string, unknown>
+}
+
+export interface BoilmasterIcon {
+	id: number
+	path: string
+	path_hr1: string
 }
 
 export interface HydrateOptions {
@@ -23,15 +43,20 @@ export abstract class Data {
 	[key: string]: unknown
 
 	// Not using ctor due to prop initialisation woes
-	hydrate(data: Record<string, unknown>, options: HydrateOptions): void {
+	hydrate(data: BoilmasterRow, options: HydrateOptions): void {
 		const ctor = this.constructor as typeof Data
 		const columns = Object.entries(ctor.columns ?? {})
 
-		for (const [column, {property, type}] of columns) {
+		for (const [column, {property, type, source}] of columns) {
 			const path = column.split('.')
-			let value = data
+			let value = data[source] ?? {}
 			for (const key of path) {
-				value = value[key] as Record<string, unknown>
+				let inner = value[key] as Record<string, unknown>
+				if (Object.hasOwn(inner, 'fields')) {
+					inner = inner.fields as Record<string, unknown>
+				}
+
+				value = inner
 			}
 
 			this[property] = handleColumnType(value, type, options)
@@ -45,8 +70,10 @@ function handleColumnType(
 	options: HydrateOptions,
 ) {
 	switch (type) {
-		case 'url':
-			return `${options.baseUrl}${value}`
+		case 'icon':
+			return `${options.baseUrl}/asset/${
+				(value as BoilmasterIcon).path_hr1
+			}?format=png`
 	}
 
 	return value
@@ -58,13 +85,18 @@ function handleColumnType(
  */
 export function column(
 	column: string,
-	options?: Omit<ColumnOptions, 'property'>,
+	options?: Partial<Omit<ColumnOptions, 'property'>>,
 ) {
 	return <T extends Data>(target: T, property: string): void => {
 		const ctor = target.constructor as typeof Data
 		ctor.columns = {
 			...ctor.columns,
-			[column]: {...options, property},
+			[column]: {
+				type: 'scalar',
+				source: 'fields',
+				...options,
+				property,
+			},
 		}
 	}
 }
