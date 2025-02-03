@@ -54,7 +54,7 @@ type CacheValue<T extends Data> =
 
 export interface ProviderProps {
 	// TODO: Maybe allow overriding the entire fetch process so someone could use e.g. kobold?
-	/** Base FFXIV API URL. Defaults to `https://beta.xivapi.com/api/1` - any alternatives should match its schema. */
+	/** Base FFXIV API URL. Defaults to `https://v2.xivapi.com/api` - any alternatives should match its schema. */
 	baseUrl?: string
 	/**
 	 * Language to render tooltips in. Defaults to `en`. Accepts any values permitted on
@@ -67,7 +67,7 @@ export interface ProviderProps {
 }
 
 export function Provider({
-	baseUrl = 'https://beta.xivapi.com/api/1',
+	baseUrl = 'https://v2.xivapi.com/api',
 	language = 'en',
 	debounceDelay = DEFAULT_DEBOUNCE_DELAY,
 	children,
